@@ -284,7 +284,7 @@ const statsSchema = Joi.object({
         coins: Joi.number().min(0).max(100000000).required(),
         exp: Joi.number().min(0).max(100000000).required(),
         unlockedAchievements: Joi.array().items(Joi.string()).required(),
-        unlockedItems: Joi.array().items(Joi.string()).required(),
+        unlockedItems: Joi.object().required(),
         equippedItems: Joi.object().required()
     }).required()
 });
