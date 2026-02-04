@@ -5,19 +5,32 @@
     "logout": "Wyloguj się",
     "login": "Zaloguj się z Google"
   },
+  "bottomNav": {
+    "shop": "Sklep",
+    "equipment": "Ekwipunek",
+    "account": "Konto"
+  },
   "statsPanel": {
     "title": "Profil Gracza",
     "guest": "Gość",
     "coins": "Monety",
+    "level": "Poziom",
     "menu": "Menu",
     "equipment": "Ekwipunek 🎒",
-    "account": "Konto 👤"
+    "account": "Konto 👤",
+    "missions": "Misje 📜"
   },
   "startScreen": {
     "ready": "Gotowy?",
     "prompt": "Kliknij przycisk, aby rozpocząć!",
     "play": "Graj!",
     "reset": "Zresetuj postęp"
+  },
+  "gameOver": {
+    "title": "Koniec Gry!",
+    "result": "Twój wynik",
+    "playAgain": "Zagraj Ponownie",
+    "returnToMenu": "Powrót do Menu"
   },
   "instructions": {
     "controls": "Użyj klawiszy (A/D, J/L, ←/→) lub kliknij, aby ścinać drzewo.",
@@ -31,16 +44,266 @@
     "tabs": {
       "stats": "Statystyki",
       "achievements": "Osiągnięcia",
+      "missions": "Misje",
       "profile": "Profil"
     },
     "stats_tab": {
       "high_score": "Najlepszy Wynik",
       "total_chops": "Suma Ściętych",
-      "leaderboard": "Ranking 📈"
+      "leaderboard": "Ranking 📈",
+      "leaderboard_title": "🏆 Ranking Graczy",
+      "leaderboard_highscore": "🎯 Najlepszy Wynik",
+      "leaderboard_totalchops": "🪓 Suma Ściętych",
+      "leaderboard_level": "⭐ Poziom",
+      "leaderboard_coins": "💰 Monety",
+      "leaderboard_loading": "Ładowanie rankingu...",
+      "leaderboard_your_position": "Twoja pozycja",
+      "leaderboard_rank": "Miejsce",
+      "leaderboard_score": "Wynik",
+      "leaderboard_chops": "Ścięte",
+      "leaderboard_level_label": "Poziom",
+      "leaderboard_coins_label": "Monety",
+      "post_game_ranking_title": "🏆 Nowy Rekord!",
+      "post_game_ranking_continue": "Kontynuuj"
     },
     "profile_tab": {
       "equipment": "Ekwipunek 🎒",
-      "edit_profile": "Edytuj Profil ✏️"
+      "edit_profile": "Edytuj Profil ✏️",
+      "guest_message": "Zaloguj się, aby zobaczyć swój profil i zapisywać postęp",
+      "login_button": "Zaloguj się przez Google",
+      "logout_button": "Wyloguj się",
+      "change_avatar": "Zmień Avatar",
+      "change_username": "Zmień Nazwę",
+      "new_username_label": "Nowa nazwa użytkownika",
+      "new_username_placeholder": "Wprowadź nową nazwę",
+      "max_chars": "Maksymalnie 50 znaków",
+      "avatar_preview_text": "Wybierz nowy avatar z dostępnych opcji",
+      "cancel": "Anuluj",
+      "save": "Zapisz"
+    }
+  },
+  "mainMenu": {
+    "classic": "Gra Zwykła",
+    "competition": "Rywalizacja",
+    "birds": "Uratuj Ptaki",
+    "challenges": "Wyzwania"
+  },
+  "classicMenu": {
+    "title": "Tryb Klasyczny",
+    "start": "Rozpocznij",
+    "back": "Powrót"
+  },
+  "birdsMenu": {
+    "title": "Uratuj Ptaki",
+    "description": "Wybierz poziom trudności i zetnij wymaganą liczbę pni, aby uratować ptaki!",
+    "easy": "Łatwy",
+    "medium": "Średni",
+    "hard": "Trudny"
+  },
+  "birdsMode": {
+    "warning": "Ptaki są w niebezpieczeństwie!",
+    "preStart": "Ptaki są w niebezpieczeństwie! Zetnij {{count}} pni, aby je ochronić.",
+    "success": "Ptaki uratowane!",
+    "fail": "Nie udało się uratować ptaków.",
+    "playAgain": "Zagraj jeszcze raz",
+    "returnToMenu": "Powrót do menu"
+  },
+  "competitionMenu": {
+    "title": "Rywalizacja",
+    "description": "Wybierz z kim chcesz rywalizować!",
+    "players": "Rywalizuj z innymi graczami",
+    "bot": "Rywalizuj z botem"
+  },
+  "competitionBotMenu": {
+    "title": "Wybierz trudność bota",
+    "description": "Kto pierwszy zetnie wymaganą liczbę pni wygrywa!",
+    "easy": "Łatwy Bot",
+    "medium": "Średni Bot",
+    "hard": "Trudny Bot"
+  },
+  "competitionMode": {
+    "warning": "Rywalizacja rozpoczęta!",
+    "preStart": "Kto pierwszy zetnie {{count}} pni wygrywa!",
+    "success": "Wygrałeś rywalizację!",
+    "fail": "Przegrałeś rywalizację.",
+    "playAgain": "Zagraj jeszcze raz",
+    "returnToMenu": "Powrót do menu"
+  },
+  "missions": {
+    "daily": "Dzienne",
+    "weekly": "Tygodniowe",
+    "monthly": "Miesięczne",
+    "reward": "Nagroda",
+    "claim": "Odbierz",
+    "example_chop_desc": "Zetnij 50 pni drzewa",
+    "no_weekly": "Brak misji tygodniowych.",
+    "no_monthly": "Brak misji miesięcznych.",
+    "no_daily": "Brak misji dziennych.",
+    "loading": "Ładowanie misji...",
+    "in_progress": "W toku",
+    "claimed": "Odebrano",
+    "next_refresh": "Następne odświeżenie:",
+    "refresh": "Odśwież",
+    "refresh_confirm": "Czy na pewno chcesz odświeżyć misje za",
+    "refresh_success": "Misje zostały odświeżone!",
+    "refresh_error": "Błąd odświeżania misji",
+    "refresh_no_money": "Za mało monet!",
+    "mission_chop_50": "Zetnij 50 pni",
+    "mission_chop_100": "Zetnij 100 pni",
+    "mission_chop_500": "Zetnij 500 pni",
+    "mission_chop_1000": "Zetnij 1000 pni",
+    "mission_chop_5000": "Zetnij 5000 pni",
+    "mission_chop_10000": "Zetnij 10000 pni",
+    "mission_score_30": "Zdobądź 30 punktów w jednej grze",
+    "mission_score_50": "Zdobądź 50 punktów w jednej grze",
+    "mission_score_75": "Zdobądź 75 punktów w jednej grze",
+    "mission_score_100": "Zdobądź 100 punktów w jednej grze",
+    "mission_coins_50": "Zarób 50 monet",
+    "mission_coins_200": "Zarób 200 monet",
+    "mission_coins_1000": "Zarób 1000 monet"
+  },
+  "inventoryHub": {
+    "title": "Ekwipunek"
+  },
+  "equipmentModal": {
+    "title": "Wybierz przedmiot",
+    "unequip": "Zdejmij przedmiot"
+  },
+  "lootbox": {
+    "continue": "Kontynuuj"
+  },
+  "revealModal": {
+    "title": "Zdobyto Nowy Przedmiot!",
+    "button": "Super!"
+  },
+  "categories": {
+    "hats": "Czapki",
+    "characters": "Postacie",
+    "axes": "Siekiery",
+    "accessories": "Akcesoria",
+    "pets": "Zwierzaki"
+  },
+  "shop": {
+    "coins_label": "monet",
+    "buy": "KUP",
+    "buy_open": "KUP i OTWÓRZ",
+    "coming_soon": "WKRÓTCE DOSTĘPNE",
+    "possible_contents": "Możliwa zawartość:"
+  },
+  "achievements": {
+    "chop10": {
+      "name": "Początkujący",
+      "description": "Zetnij 10 drzew."
+    },
+    "chop100": {
+      "name": "Drwal",
+      "description": "Zetnij 100 drzew."
+    },
+    "chop500": {
+      "name": "Mistrz Drwali",
+      "description": "Zetnij 500 drzew."
+    },
+    "score50": {
+      "name": "Szybkie Ręce",
+      "description": "Zdobądź 50 pkt."
+    },
+    "score100": {
+      "name": "Demon Prędkości",
+      "description": "Zdobądź 100 pkt."
+    },
+    "coins100": {
+      "name": "Kieszonkowe",
+      "description": "Zdobądź 100 monet."
+    },
+    "coins1000": {
+      "name": "Skarbnik",
+      "description": "Zdobądź 1000 monet."
+    },
+    "noBranch10": {
+      "name": "Szczęściarz",
+      "description": "Zetnij 10 drzew bez gałęzi."
+    },
+    "locked": "Zablokowane",
+    "none": "Brak osiągnięć"
+  },
+  "items": {
+    "char_santa": {
+      "name": "Święty",
+      "description": "Dłuższy czas za cięcie (+0.5s)"
+    },
+    "char_vampire": {
+      "name": "Wampir",
+      "description": "Dłuższy czas za cięcie (+0.75s)"
+    },
+    "char_robot": {
+      "name": "Robot",
+      "description": "Dłuższy czas za cięcie (+1s)"
+    },
+    "hat_tophat": {
+      "name": "Cylinder",
+      "description": "Spowalnia czas o 5%"
+    },
+    "hat_grad": {
+      "name": "Czapka Absolwenta",
+      "description": "Spowalnia czas o 10%"
+    },
+    "hat_crown": {
+      "name": "Korona",
+      "description": "Spowalnia czas o 15%"
+    },
+    "axe_sword": {
+      "name": "Miecz",
+      "description": "+10% monet za wynik"
+    },
+    "axe_pickaxe": {
+      "name": "Kilof",
+      "description": "+20% monet za wynik"
+    },
+    "axe_golden": {
+      "name": "Złota Siekiera",
+      "description": "+30% monet za wynik"
+    },
+    "acc_glasses": {
+      "name": "Okulary 3D",
+      "description": "Monety +10%"
+    },
+    "acc_scarf": {
+      "name": "Szalik",
+      "description": "Monety +20%"
+    },
+    "pet_dog": {
+      "name": "Piesek",
+      "description": "+15% EXP za wynik"
+    },
+    "pet_cat": {
+      "name": "Kotek",
+      "description": "+15% EXP za wynik"
+    }
+  },
+  "lootboxes": {
+    "box_hats_1": {
+      "name": "Zwykła Skrzynia Kapelusznika",
+      "description": "Zawiera pospolite i rzadkie czapki."
+    },
+    "box_hats_2": {
+      "name": "Legendarna Skrzynia Koronna",
+      "description": "Gwarantowana legendarna czapka!"
+    },
+    "box_axes_1": {
+      "name": "Skrzynia Drwala",
+      "description": "Zawiera losową siekierę."
+    },
+    "box_characters_1": {
+      "name": "Skrzynia Bohaterów",
+      "description": "Odblokowuje losową postać."
+    },
+    "box_accessories_1": {
+      "name": "Paczka z Akcesoriami",
+      "description": "Zawiera losowe akcesorium."
+    },
+    "box_pets_1": {
+      "name": "Kosz ze Zwierzakiem",
+      "description": "Może zawierać uroczego towarzysza."
     }
   }
 }

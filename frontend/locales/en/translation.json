@@ -5,19 +5,32 @@
     "logout": "Log Out",
     "login": "Log in with Google"
   },
+  "bottomNav": {
+    "shop": "Shop",
+    "equipment": "Equipment",
+    "account": "Account"
+  },
   "statsPanel": {
     "title": "Player Profile",
     "guest": "Guest",
     "coins": "Coins",
+    "level": "Level",
     "menu": "Menu",
     "equipment": "Equipment 🎒",
-    "account": "Account 👤"
+    "account": "Account 👤",
+    "missions": "Missions 📜"
   },
   "startScreen": {
     "ready": "Ready?",
     "prompt": "Click the button to start!",
     "play": "Play!",
     "reset": "Reset progress"
+  },
+  "gameOver": {
+    "title": "Game Over!",
+    "result": "Your score",
+    "playAgain": "Play Again",
+    "returnToMenu": "Return to Menu"
   },
   "instructions": {
     "controls": "Use keys (A/D, J/L, ←/→) or click to chop the tree.",
@@ -31,16 +44,266 @@
     "tabs": {
       "stats": "Statistics",
       "achievements": "Achievements",
+      "missions": "Missions",
       "profile": "Profile"
     },
     "stats_tab": {
       "high_score": "High Score",
       "total_chops": "Total Chops",
-      "leaderboard": "Leaderboard 📈"
+      "leaderboard": "Leaderboard 📈",
+      "leaderboard_title": "🏆 Player Ranking",
+      "leaderboard_highscore": "🎯 High Score",
+      "leaderboard_totalchops": "🪓 Total Chops",
+      "leaderboard_level": "⭐ Level",
+      "leaderboard_coins": "💰 Coins",
+      "leaderboard_loading": "Loading leaderboard...",
+      "leaderboard_your_position": "Your position",
+      "leaderboard_rank": "Rank",
+      "leaderboard_score": "Score",
+      "leaderboard_chops": "Chops",
+      "leaderboard_level_label": "Level",
+      "leaderboard_coins_label": "Coins",
+      "post_game_ranking_title": "🏆 New Record!",
+      "post_game_ranking_continue": "Continue"
     },
     "profile_tab": {
       "equipment": "Equipment 🎒",
-      "edit_profile": "Edit Profile ✏️"
+      "edit_profile": "Edit Profile ✏️",
+      "guest_message": "Log in to see your profile and save progress",
+      "login_button": "Log in with Google",
+      "logout_button": "Log Out",
+      "change_avatar": "Change Avatar",
+      "change_username": "Change Username",
+      "new_username_label": "New username",
+      "new_username_placeholder": "Enter new username",
+      "max_chars": "Maximum 50 characters",
+      "avatar_preview_text": "Choose a new avatar from available options",
+      "cancel": "Cancel",
+      "save": "Save"
+    }
+  },
+  "mainMenu": {
+    "classic": "Classic Game",
+    "competition": "Competition",
+    "birds": "Save the Birds",
+    "challenges": "Challenges"
+  },
+  "classicMenu": {
+    "title": "Classic Mode",
+    "start": "Start",
+    "back": "Back"
+  },
+  "birdsMenu": {
+    "title": "Save the Birds",
+    "description": "Choose difficulty level and chop the required number of trunks to save the birds!",
+    "easy": "Easy",
+    "medium": "Medium",
+    "hard": "Hard"
+  },
+  "birdsMode": {
+    "warning": "Birds are in danger!",
+    "preStart": "Birds are in danger! Chop {{count}} trunks to save them.",
+    "success": "Birds saved!",
+    "fail": "Failed to save the birds.",
+    "playAgain": "Play again",
+    "returnToMenu": "Return to menu"
+  },
+  "competitionMenu": {
+    "title": "Competition",
+    "description": "Choose who you want to compete against!",
+    "players": "Compete with other players",
+    "bot": "Compete with bot"
+  },
+  "competitionBotMenu": {
+    "title": "Choose bot difficulty",
+    "description": "Whoever chops the required number of trunks first wins!",
+    "easy": "Easy Bot",
+    "medium": "Medium Bot",
+    "hard": "Hard Bot"
+  },
+  "competitionMode": {
+    "warning": "Competition started!",
+    "preStart": "Whoever chops {{count}} trunks first wins!",
+    "success": "You won the competition!",
+    "fail": "You lost the competition.",
+    "playAgain": "Play again",
+    "returnToMenu": "Return to menu"
+  },
+  "missions": {
+    "daily": "Daily",
+    "weekly": "Weekly",
+    "monthly": "Monthly",
+    "reward": "Reward",
+    "claim": "Claim",
+    "example_chop_desc": "Chop 50 tree trunks",
+    "no_weekly": "No weekly missions.",
+    "no_monthly": "No monthly missions.",
+    "no_daily": "No daily missions.",
+    "loading": "Loading missions...",
+    "in_progress": "In Progress",
+    "claimed": "Claimed",
+    "next_refresh": "Next refresh:",
+    "refresh": "Refresh",
+    "refresh_confirm": "Are you sure you want to refresh missions for",
+    "refresh_success": "Missions have been refreshed!",
+    "refresh_error": "Error refreshing missions",
+    "refresh_no_money": "Not enough coins!",
+    "mission_chop_50": "Chop 50 trunks",
+    "mission_chop_100": "Chop 100 trunks",
+    "mission_chop_500": "Chop 500 trunks",
+    "mission_chop_1000": "Chop 1000 trunks",
+    "mission_chop_5000": "Chop 5000 trunks",
+    "mission_chop_10000": "Chop 10000 trunks",
+    "mission_score_30": "Score 30 points in a single game",
+    "mission_score_50": "Score 50 points in a single game",
+    "mission_score_75": "Score 75 points in a single game",
+    "mission_score_100": "Score 100 points in a single game",
+    "mission_coins_50": "Earn 50 coins",
+    "mission_coins_200": "Earn 200 coins",
+    "mission_coins_1000": "Earn 1000 coins"
+  },
+  "inventoryHub": {
+    "title": "Inventory"
+  },
+  "equipmentModal": {
+    "title": "Choose item",
+    "unequip": "Unequip"
+  },
+  "lootbox": {
+    "continue": "Continue"
+  },
+  "revealModal": {
+    "title": "New Item Obtained!",
+    "button": "Great!"
+  },
+  "categories": {
+    "hats": "Hats",
+    "characters": "Characters",
+    "axes": "Axes",
+    "accessories": "Accessories",
+    "pets": "Pets"
+  },
+  "shop": {
+    "coins_label": "coins",
+    "buy": "BUY",
+    "buy_open": "BUY & OPEN",
+    "coming_soon": "COMING SOON",
+    "possible_contents": "Possible contents:"
+  },
+  "achievements": {
+    "chop10": {
+      "name": "Beginner",
+      "description": "Chop 10 trees."
+    },
+    "chop100": {
+      "name": "Lumberjack",
+      "description": "Chop 100 trees."
+    },
+    "chop500": {
+      "name": "Master Lumberjack",
+      "description": "Chop 500 trees."
+    },
+    "score50": {
+      "name": "Fast Hands",
+      "description": "Score 50 pts."
+    },
+    "score100": {
+      "name": "Speed Demon",
+      "description": "Score 100 pts."
+    },
+    "coins100": {
+      "name": "Pocket Money",
+      "description": "Earn 100 coins."
+    },
+    "coins1000": {
+      "name": "Treasurer",
+      "description": "Earn 1000 coins."
+    },
+    "noBranch10": {
+      "name": "Lucky",
+      "description": "Chop 10 trees without branches."
+    },
+    "locked": "Locked",
+    "none": "No achievements"
+  },
+  "items": {
+    "char_santa": {
+      "name": "Santa",
+      "description": "More time per chop (+0.5s)"
+    },
+    "char_vampire": {
+      "name": "Vampire",
+      "description": "More time per chop (+0.75s)"
+    },
+    "char_robot": {
+      "name": "Robot",
+      "description": "More time per chop (+1s)"
+    },
+    "hat_tophat": {
+      "name": "Top Hat",
+      "description": "Slows timer by 5%"
+    },
+    "hat_grad": {
+      "name": "Graduate Cap",
+      "description": "Slows timer by 10%"
+    },
+    "hat_crown": {
+      "name": "Crown",
+      "description": "Slows timer by 15%"
+    },
+    "axe_sword": {
+      "name": "Sword",
+      "description": "+10% coins from score"
+    },
+    "axe_pickaxe": {
+      "name": "Pickaxe",
+      "description": "+20% coins from score"
+    },
+    "axe_golden": {
+      "name": "Golden Axe",
+      "description": "+30% coins from score"
+    },
+    "acc_glasses": {
+      "name": "3D Glasses",
+      "description": "Coins +10%"
+    },
+    "acc_scarf": {
+      "name": "Scarf",
+      "description": "Coins +20%"
+    },
+    "pet_dog": {
+      "name": "Puppy",
+      "description": "+15% EXP from score"
+    },
+    "pet_cat": {
+      "name": "Kitty",
+      "description": "+15% EXP from score"
+    }
+  },
+  "lootboxes": {
+    "box_hats_1": {
+      "name": "Common Hatter Crate",
+      "description": "Contains common and rare hats."
+    },
+    "box_hats_2": {
+      "name": "Legendary Crown Crate",
+      "description": "Guaranteed legendary hat!"
+    },
+    "box_axes_1": {
+      "name": "Lumberjack Crate",
+      "description": "Contains a random axe."
+    },
+    "box_characters_1": {
+      "name": "Heroes Crate",
+      "description": "Unlocks a random character."
+    },
+    "box_accessories_1": {
+      "name": "Accessories Pack",
+      "description": "Contains a random accessory."
+    },
+    "box_pets_1": {
+      "name": "Pet Basket",
+      "description": "May contain a cute companion."
     }
   }
 }

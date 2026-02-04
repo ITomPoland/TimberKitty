@@ -1,4 +1,4 @@
-console.log('--- SERVER.JS v2 --- URUCHAMIAM NAJNOWSZĄ WERSJĘ KODU ---');
+console.log('--- SERVER.JS v3 --- Z ULEPSZENIAMI BEZPIECZEŃSTWA ---');
 
 // --- Importowanie bibliotek ---
 require('dotenv').config();
@@ -7,7 +7,10 @@ const session = require('express-session');
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const cors = require('cors');
-const { Pool } = require('pg'); // Do obsługi bazy danych
+const { Pool } = require('pg');
+const rateLimit = require('express-rate-limit');
+const PgSession = require('connect-pg-simple')(session);
+const Joi = require('joi');
 
 // --- Konfiguracja Połączenia z Bazą Danych ---
 const pool = new Pool({
@@ -17,7 +20,8 @@ const pool = new Pool({
     }
 });
 
-const shopData = {     char_santa: { id: 'char_santa', name: 'Święty', category: 'characters', icon: '🧑‍🎄', price: 500, description: 'Dłuższy czas za cięcie (+0.5s)', bonus: { type: 'timeGainBonus', value: 0.5 } },
+const shopData = {
+    char_santa: { id: 'char_santa', name: 'Święty', category: 'characters', icon: '🧑‍🎄', price: 500, description: 'Dłuższy czas za cięcie (+0.5s)', bonus: { type: 'timeGainBonus', value: 0.5 } },
     char_vampire: { id: 'char_vampire', name: 'Wampir', category: 'characters', icon: '🧛', price: 750, description: 'Dłuższy czas za cięcie (+0.75s)', bonus: { type: 'timeGainBonus', value: 0.75 } },
     char_robot: { id: 'char_robot', name: 'Robot', category: 'characters', icon: '🤖', price: 1200, description: 'Dłuższy czas za cięcie (+1s)', bonus: { type: 'timeGainBonus', value: 1.0 } },
     hat_tophat: { id: 'hat_tophat', name: 'Cylinder', category: 'hats', icon: '🎩', price: 150, description: 'Spowalnia czas o 5%', bonus: { type: 'timerSlowdown', value: 0.05 } },
@@ -29,7 +33,8 @@ const shopData = {     char_santa: { id: 'char_santa', name: 'Święty', categor
     acc_glasses: { id: 'acc_glasses', name: 'Okulary 3D', category: 'accessories', icon: '🕶️', price: 300, description: 'Monety +10%', bonus: { type: 'coinMultiplier', value: 0.1 } },
     acc_scarf: { id: 'acc_scarf', name: 'Szalik', category: 'accessories', icon: '🧣', price: 500, description: 'Monety +20%', bonus: { type: 'coinMultiplier', value: 0.2 } },
     pet_dog: { id: 'pet_dog', name: 'Piesek', category: 'pets', icon: '🐶', price: 2500, description: 'Jednorazowa ochrona', bonus: { type: 'oneTimeSave', value: 1 } },
-    pet_cat: { id: 'pet_cat', name: 'Kotek', category: 'pets', icon: '🐱', price: 2500, description: 'Jednorazowa ochrona', bonus: { type: 'oneTimeSave', value: 1 } }, };
+    pet_cat: { id: 'pet_cat', name: 'Kotek', category: 'pets', icon: '🐱', price: 2500, description: 'Jednorazowa ochrona', bonus: { type: 'oneTimeSave', value: 1 } },
+};
 const lootBoxData = {
     'hats': [
         {
@@ -87,7 +92,7 @@ const lootBoxData = {
         }
     ],
     'accessories': [
-         {
+        {
             id: 'box_accessories_1',
             name: 'Paczka z Akcesoriami',
             price: 500,
@@ -119,19 +124,43 @@ const lootBoxData = {
 // --- Inicjalizacja Aplikacji Express ---
 const app = express();
 app.set('trust proxy', 1);
-app.use(express.json()); // Middleware do parsowania JSON w ciele zapytań POST
+app.use(express.json());
+
+// --- Rate Limiting (ochrona przed spamem) ---
+const apiLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minut
+    max: 100, // max 100 requestów na IP w oknie czasowym
+    message: { message: 'Za dużo requestów, spróbuj później.' },
+    standardHeaders: true,
+    legacyHeaders: false,
+});
+
+// Osobny limiter dla endpointów zapisu (bardziej restrykcyjny)
+const writeLimiter = rateLimit({
+    windowMs: 1 * 60 * 1000, // 1 minuta
+    max: 30, // max 30 zapisów na minutę
+    message: { message: 'Za dużo zapisów, poczekaj chwilę.' },
+});
+
+// Zastosuj rate limiting do API
+app.use('/api/', apiLimiter);
 
 // --- Konfiguracja CORS ---
 app.use(cors({
     origin: [
-        'https://timberkitty.netlify.app', // Adres produkcyjny
-        'http://127.0.0.1:5500'          // Adres deweloperski
+        'https://timberkitty.netlify.app',
+        'http://127.0.0.1:5500'
     ],
     credentials: true
 }));
 
-// --- Konfiguracja Sesji ---
+// --- Konfiguracja Sesji z PostgreSQL Store ---
 app.use(session({
+    store: new PgSession({
+        pool: pool,
+        tableName: 'session',
+        createTableIfMissing: true
+    }),
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
@@ -139,7 +168,7 @@ app.use(session({
         secure: true,
         sameSite: 'none',
         httpOnly: true,
-        maxAge: 1000 * 60 * 60 * 24 * 7 // Sesja ważna przez 7 dni
+        maxAge: 1000 * 60 * 60 * 24 * 7
     }
 }));
 
@@ -152,36 +181,36 @@ passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     callbackURL: "/auth/google/callback"
-  },
-  async (accessToken, refreshToken, profile, done) => {
-    const { id, displayName, photos } = profile;
+},
+    async (accessToken, refreshToken, profile, done) => {
+        const { id, displayName, photos } = profile;
 
-    try {
-        // Sprawdź, czy użytkownik już istnieje w bazie danych
-        const existingUser = await pool.query('SELECT * FROM users WHERE google_id = $1', [id]);
+        try {
+            // Sprawdź, czy użytkownik już istnieje w bazie danych
+            const existingUser = await pool.query('SELECT * FROM users WHERE google_id = $1', [id]);
 
-        if (existingUser.rows.length > 0) {
-            // Użytkownik istnieje, zwróć jego dane z bazy
-            console.log('Użytkownik znaleziony:', existingUser.rows[0]);
-            return done(null, existingUser.rows[0]);
+            if (existingUser.rows.length > 0) {
+                // Użytkownik istnieje, zwróć jego dane z bazy
+                console.log('Użytkownik znaleziony:', existingUser.rows[0]);
+                return done(null, existingUser.rows[0]);
+            }
+
+            // Użytkownik nie istnieje, stwórz nowego
+            // --- POPRAWKA TUTAJ ---
+            // Dodajemy unlocked_items i przekazujemy pusty obiekt {} jako domyślną wartość
+            const newUser = await pool.query(
+                'INSERT INTO users (google_id, display_name, avatar_url, unlocked_items, exp) VALUES ($1, $2, $3, $4, $5) RETURNING *',
+                [id, displayName, photos[0].value, {}, 0]
+            );
+            // --- KONIEC POPRAWKI ---
+
+            console.log('Stworzono nowego użytkownika:', newUser.rows[0]);
+            return done(null, newUser.rows[0]);
+
+        } catch (err) {
+            return done(err, null);
         }
-
-        // Użytkownik nie istnieje, stwórz nowego
-        // --- POPRAWKA TUTAJ ---
-        // Dodajemy unlocked_items i przekazujemy pusty obiekt {} jako domyślną wartość
-        const newUser = await pool.query(
-            'INSERT INTO users (google_id, display_name, avatar_url, unlocked_items, exp) VALUES ($1, $2, $3, $4, $5) RETURNING *',
-            [id, displayName, photos[0].value, {}, 0]
-        );
-        // --- KONIEC POPRAWKI ---
-
-        console.log('Stworzono nowego użytkownika:', newUser.rows[0]);
-        return done(null, newUser.rows[0]);
-
-    } catch (err) {
-        return done(err, null);
     }
-  }
 ));
 
 // --- ZMODYFIKOWANA SERIALIZACJA I DESERIALIZACJA ---
@@ -197,7 +226,7 @@ passport.deserializeUser(async (id, done) => {
             done(null, result.rows[0]);
         } else {
             // Użytkownik nie istnieje, grzecznie zakończ sesję
-            done(null, false); 
+            done(null, false);
         }
     } catch (err) {
         // Wystąpił błąd bazy danych
@@ -212,11 +241,11 @@ passport.deserializeUser(async (id, done) => {
 // --- Endpointy Autoryzacji ---
 app.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 
-app.get('/auth/google/callback', 
-  passport.authenticate('google', { failureRedirect: 'https://timberkitty.netlify.app' }),
-  (req, res) => {
-    res.redirect('https://timberkitty.netlify.app'); 
-  }
+app.get('/auth/google/callback',
+    passport.authenticate('google', { failureRedirect: 'https://timberkitty.netlify.app' }),
+    (req, res) => {
+        res.redirect('https://timberkitty.netlify.app');
+    }
 );
 
 app.get('/auth/logout', (req, res, next) => {
@@ -240,20 +269,43 @@ app.get('/api/me', (req, res) => {
     }
 });
 
-// Endpoint do zapisywania statystyk po grze
-// W pliku server.js, ZASTĄP stary endpoint /api/stats tym kodem
+// Endpoint do pobierania danych sklepu (single source of truth)
+app.get('/api/shop', (req, res) => {
+    res.json({ shopData, lootBoxData });
+});
 
-app.post('/api/stats', async (req, res) => {
+// Schema walidacji dla /api/stats
+const statsSchema = Joi.object({
+    scoreFromGame: Joi.number().min(0).max(10000).required(),
+    coinsEarned: Joi.number().min(0).max(100000).required(),
+    newTotals: Joi.object({
+        highScore: Joi.number().min(0).max(10000).required(),
+        totalChops: Joi.number().min(0).max(10000000).required(),
+        coins: Joi.number().min(0).max(100000000).required(),
+        exp: Joi.number().min(0).max(100000000).required(),
+        unlockedAchievements: Joi.array().items(Joi.string()).required(),
+        unlockedItems: Joi.array().items(Joi.string()).required(),
+        equippedItems: Joi.object().required()
+    }).required()
+});
+
+app.post('/api/stats', writeLimiter, async (req, res) => {
     if (!req.user) {
         return res.status(401).json({ message: 'Musisz być zalogowany, aby zapisać postęp.' });
+    }
+
+    // Walidacja danych wejściowych
+    const { error, value } = statsSchema.validate(req.body);
+    if (error) {
+        console.warn(`[VALIDATION] Nieprawidłowe dane od użytkownika ${req.user.id}:`, error.details[0].message);
+        return res.status(400).json({ message: 'Nieprawidłowe dane: ' + error.details[0].message });
     }
 
     const client = await pool.connect();
     try {
         await client.query('BEGIN');
 
-        // Odczytujemy wyniki z gry i nowe sumy bezpośrednio z zapytania
-        const { scoreFromGame, coinsEarned, newTotals } = req.body;
+        const { scoreFromGame, coinsEarned, newTotals } = value;
         const userId = req.user.id;
 
         // --- 1. Zaktualizuj główne statystyki gracza używając gotowych sum ---
@@ -283,7 +335,7 @@ app.post('/api/stats', async (req, res) => {
                 case 'SCORE_SINGLE_GAME':
                     // Ta misja jest o najwyższym wyniku, a nie sumie, więc aktualizujemy inaczej
                     if (scoreFromGame > mission.progress) {
-                         await client.query('UPDATE player_active_missions SET progress = $1 WHERE id = $2', [scoreFromGame, mission.id]);
+                        await client.query('UPDATE player_active_missions SET progress = $1 WHERE id = $2', [scoreFromGame, mission.id]);
                     }
                     continue; // Przejdź do następnej misji
                 case 'EARN_COINS_TOTAL':
@@ -304,7 +356,7 @@ app.post('/api/stats', async (req, res) => {
                 console.log(`Misja ${mission.id}: Brak postępu do dodania (obliczone progressGained = ${progressGained})`);
             }
         }
-        
+
         // Sprawdź, które misje zostały właśnie ukończone
         await client.query(`
             UPDATE player_active_missions
@@ -469,7 +521,7 @@ app.post('/api/update-profile', async (req, res) => {
         values.push(userId);
 
         const query = `UPDATE users SET ${updateFields.join(', ')} WHERE id = $${paramCount} RETURNING *`;
-        
+
         const result = await pool.query(query, values);
 
         res.status(200).json(result.rows[0]);
@@ -485,10 +537,10 @@ app.get('/api/leaderboard', async (req, res) => {
     try {
         const { type = 'highscore', score } = req.query;
         const userId = req.user ? req.user.id : null;
-        
+
         let orderBy = '';
         let limit = 50; // Limit do 50 graczy
-        
+
         switch (type) {
             case 'highscore':
                 orderBy = 'high_score DESC, total_chops DESC, created_at ASC';
@@ -505,7 +557,7 @@ app.get('/api/leaderboard', async (req, res) => {
             default:
                 orderBy = 'high_score DESC, total_chops DESC, created_at ASC';
         }
-        
+
         // Pobierz ranking graczy
         const leaderboardQuery = `
             SELECT 
@@ -517,10 +569,10 @@ app.get('/api/leaderboard', async (req, res) => {
             ORDER BY ${orderBy}
             LIMIT $1
         `;
-        
+
         const leaderboardResult = await pool.query(leaderboardQuery, [limit]);
         let leaderboard = leaderboardResult.rows;
-        
+
         // Dodaj informację o aktualnym użytkowniku
         if (userId) {
             leaderboard = leaderboard.map(player => ({
@@ -528,7 +580,7 @@ app.get('/api/leaderboard', async (req, res) => {
                 isCurrentUser: player.id === userId
             }));
         }
-        
+
         // Znajdź pozycję użytkownika w rankingu
         let userRank = null;
         if (userId) {
@@ -540,19 +592,19 @@ app.get('/api/leaderboard', async (req, res) => {
                 FROM users 
                 WHERE id = $1 AND high_score > 0
             `;
-            
+
             const userResult = await pool.query(userQuery, [userId]);
             if (userResult.rows.length > 0) {
                 userRank = userResult.rows[0];
             }
         }
-        
+
         res.status(200).json({
             leaderboard,
             userRank,
             type
         });
-        
+
     } catch (err) {
         console.error('Błąd pobierania rankingu:', err);
         res.status(500).json({ message: 'Błąd serwera podczas pobierania rankingu.' });
@@ -585,33 +637,33 @@ app.get('/api/missions', async (req, res) => {
                 'SELECT generated_at FROM player_active_missions WHERE user_id = $1 AND mission_id IN (SELECT id FROM missions_pool WHERE time_category = $2) LIMIT 1',
                 [userId, category.name]
             );
-        
+
             let needsNewMissions = true;
             if (activeMissions.length > 0) {
                 const generatedAt = new Date(activeMissions[0].generated_at);
                 generatedAt.setHours(0, 0, 0, 0); // Normalizuj datę do północy
-        
+
                 const today = new Date();
                 today.setHours(0, 0, 0, 0); // Normalizuj dzisiejszą datę do północy
-        
+
                 if (category.name === 'daily' && today.getTime() === generatedAt.getTime()) {
                     needsNewMissions = false;
                 }
-                
+
                 if (category.name === 'weekly') {
                     const startOfWeek = new Date(today);
                     // Ustaw na ostatni poniedziałek (dzień tygodnia: 0=Nd, 1=Pon, ..., 6=Sob)
-                    startOfWeek.setDate(today.getDate() - (today.getDay() + 6) % 7); 
+                    startOfWeek.setDate(today.getDate() - (today.getDay() + 6) % 7);
                     if (generatedAt >= startOfWeek) {
                         needsNewMissions = false;
                     }
                 }
-        
+
                 if (category.name === 'monthly' && today.getFullYear() === generatedAt.getFullYear() && today.getMonth() === generatedAt.getMonth()) {
                     needsNewMissions = false;
                 }
             }
-        
+
             if (needsNewMissions) {
                 // Ta część kodu (usuwanie, losowanie, wstawianie) pozostaje bez zmian...
                 console.log(`Generowanie nowych misji [${category.name}] dla użytkownika ${userId}`);
@@ -631,7 +683,7 @@ app.get('/api/missions', async (req, res) => {
                 }
             }
         }
-        
+
         // 5. Pobierz wszystkie aktualne misje gracza i zwróć je do frontendu
         const { rows: finalMissions } = await client.query(`
             SELECT pam.id, pam.progress, pam.is_completed, pam.is_claimed,
@@ -716,9 +768,9 @@ app.post('/api/missions/claim', async (req, res) => {
         const { rows: updatedUser } = await client.query('SELECT * FROM users WHERE id = $1', [userId]);
 
         await client.query('COMMIT');
-        res.status(200).json({ 
+        res.status(200).json({
             message: 'Nagroda odebrana!',
-            updatedUser: updatedUser[0] 
+            updatedUser: updatedUser[0]
         });
 
     } catch (err) {
@@ -770,7 +822,7 @@ app.post('/api/missions/refresh', async (req, res) => {
         `, [userId, missionType]);
 
         // Sprawdź czy wszystkie misje są ukończone i odebrane
-        const allCompletedAndClaimed = completedMissions.every(mission => 
+        const allCompletedAndClaimed = completedMissions.every(mission =>
             mission.is_completed && mission.is_claimed
         );
 
