@@ -4,370 +4,370 @@ const GAME_AREA_WIDTH_BASE = 400;
 
 // --- Konfiguracja Tłumaczeń (i18next) ---
 function initI18n() {
-  const i18n = window.i18next;
+    const i18n = window.i18next;
 
-  if (!i18n) {
-    console.error('i18next core nie jest załadowany.');
-    return;
-  }
-
-  // Wbudowane zasoby tłumaczeń (fallback bez HTTP)
-  const inlineResources = {
-    pl: {
-      translation: {
-        title: 'TimberKitty',
-        buttons: { loading: 'Ładowanie...', logout: 'Wyloguj się', login: 'Zaloguj się z Google' },
-        bottomNav: { shop: 'Sklep', equipment: 'Ekwipunek', account: 'Konto' },
-        statsPanel: {
-          title: 'Profil Gracza', guest: 'Gość', coins: 'Monety', level: 'Poziom', menu: 'Menu', equipment: 'Ekwipunek 🎒', account: 'Konto 👤', missions: 'Misje 📜'
-        },
-        startScreen: { ready: 'Gotowy?', prompt: 'Kliknij przycisk, aby rozpocząć!', play: 'Graj!', reset: 'Zresetuj postęp' },
-        gameOver: { title: 'Koniec Gry!', result: 'Twój wynik', playAgain: 'Zagraj Ponownie' },
-        instructions: { controls: 'Użyj klawiszy (A/D, J/L, ←/→) lub kliknij, aby ścinać drzewo.', avoid: 'Omijaj gałęzie!' },
-        shopPanel: { title: 'Sklep' },
-        accountHub: {
-          title: 'Konto Gracza',
-          tabs: { stats: 'Statystyki', achievements: 'Osiągnięcia', missions: 'Misje', profile: 'Profil' },
-          stats_tab: { 
-            high_score: 'Najlepszy Wynik', 
-            total_chops: 'Suma Ściętych', 
-            leaderboard: 'Ranking 📈',
-            leaderboard_title: '🏆 Ranking Graczy',
-            leaderboard_highscore: '🎯 Najlepszy Wynik',
-            leaderboard_totalchops: '🪓 Suma Ściętych',
-            leaderboard_level: '⭐ Poziom',
-            leaderboard_coins: '💰 Monety',
-            leaderboard_loading: 'Ładowanie rankingu...',
-            leaderboard_your_position: 'Twoja pozycja',
-            leaderboard_rank: 'Miejsce',
-            leaderboard_score: 'Wynik',
-            leaderboard_chops: 'Ścięte',
-            leaderboard_level_label: 'Poziom',
-            leaderboard_coins_label: 'Monety',
-            post_game_ranking_title: '🏆 Nowy Rekord!',
-            post_game_ranking_continue: 'Kontynuuj'
-          },
-          profile_tab: { 
-            equipment: 'Ekwipunek 🎒', 
-            edit_profile: 'Edytuj Profil ✏️',
-            guest_message: 'Zaloguj się, aby zobaczyć swój profil i zapisywać postęp',
-            login_button: 'Zaloguj się przez Google',
-            logout_button: 'Wyloguj się',
-            change_avatar: 'Zmień Avatar',
-            change_username: 'Zmień Nazwę',
-            new_username_label: 'Nowa nazwa użytkownika',
-            new_username_placeholder: 'Wprowadź nową nazwę',
-            max_chars: 'Maksymalnie 50 znaków',
-            avatar_preview_text: 'Wybierz nowy avatar z dostępnych opcji',
-            cancel: 'Anuluj',
-            save: 'Zapisz'
-          }
-        },
-        gameOver: { 
-            title: 'Koniec Gry!', 
-            result: 'Twój wynik', 
-            playAgain: 'Zagraj Ponownie',
-            returnToMenu: 'Powrót do Menu' // <-- NOWY KLUCZ
-        },
-        mainMenu: {
-            classic: 'Gra Zwykła',
-            competition: 'Rywalizacja',
-            birds: 'Uratuj Ptaki',
-            challenges: 'Wyzwania'
-        },
-        classicMenu: {
-            title: 'Tryb Klasyczny',
-            start: 'Rozpocznij',
-            back: 'Powrót'
-        },
-        birdsMenu: {
-            title: 'Uratuj Ptaki',
-            description: 'Wybierz poziom trudności i zetnij wymaganą liczbę pni, aby uratować ptaki!',
-            easy: 'Łatwy',
-            medium: 'Średni',
-            hard: 'Trudny'
-        },
-        birdsMode: {
-            warning: 'Ptaki są w niebezpieczeństwie!',
-            preStart: 'Ptaki są w niebezpieczeństwie! Zetnij {{count}} pni, aby je ochronić.',
-            success: 'Ptaki uratowane!',
-            fail: 'Nie udało się uratować ptaków.',
-            playAgain: 'Zagraj jeszcze raz',
-            returnToMenu: 'Powrót do menu'
-        },
-        competitionMenu: {
-            title: 'Rywalizacja',
-            description: 'Wybierz z kim chcesz rywalizować!',
-            players: 'Rywalizuj z innymi graczami',
-            bot: 'Rywalizuj z botem'
-        },
-        competitionBotMenu: {
-            title: 'Wybierz trudność bota',
-            description: 'Kto pierwszy zetnie wymaganą liczbę pni wygrywa!',
-            easy: 'Łatwy Bot',
-            medium: 'Średni Bot',
-            hard: 'Trudny Bot'
-        },
-        competitionMode: {
-            warning: 'Rywalizacja rozpoczęta!',
-            preStart: 'Kto pierwszy zetnie {{count}} pni wygrywa!',
-            success: 'Wygrałeś rywalizację!',
-            fail: 'Przegrałeś rywalizację.',
-            playAgain: 'Zagraj jeszcze raz',
-            returnToMenu: 'Powrót do menu'
-        },
-        missions: {
-            daily: 'Dzienne',
-            weekly: 'Tygodniowe',
-            monthly: 'Miesięczne',
-            reward: 'Nagroda',
-            claim: 'Odbierz',
-            example_chop_desc: 'Zetnij 50 pni drzewa',
-            no_weekly: 'Brak misji tygodniowych.',
-            no_monthly: 'Brak misji miesięcznych.',
-            no_daily: 'Brak misji dziennych.',
-            loading: 'Ładowanie misji...',
-            in_progress: 'W toku',
-            claimed: 'Odebrano',
-            next_refresh: 'Następne odświeżenie:',
-            refresh: 'Odśwież',
-            refresh_confirm: 'Czy na pewno chcesz odświeżyć misje za',
-            refresh_success: 'Misje zostały odświeżone!',
-            refresh_error: 'Błąd odświeżania misji',
-            refresh_no_money: 'Za mało monet!',
-            'desc.chop_50': 'Zetnij 50 pni',
-            'desc.score_30': 'Zdobądź 30 punktów w jednej grze',
-            'desc.chop_500': 'Zetnij łącznie 500 pni',
-            'desc.score_100': 'Zdobądź 100 punktów w jednej grze',
-            'desc.earn_1000': 'Zarób łącznie 1000 monet'
-        },
-        inventoryHub: { title: 'Ekwipunek' },
-        equipmentModal: { title: 'Wybierz przedmiot', unequip: 'Zdejmij przedmiot' },
-        lootbox: { continue: 'Kontynuuj' },
-        revealModal: { title: 'Zdobyto Nowy Przedmiot!', button: 'Super!' },
-        categories: { hats: 'Czapki', characters: 'Postacie', axes: 'Siekiery', accessories: 'Akcesoria', pets: 'Zwierzaki' },
-        shop: { coins_label: 'monet', buy: 'KUP', buy_open: 'KUP i OTWÓRZ', coming_soon: 'WKRÓTCE DOSTĘPNE', possible_contents: 'Możliwa zawartość:' },
-        achievements: {
-          chop10: { name: 'Początkujący', description: 'Zetnij 10 drzew.' },
-          chop100: { name: 'Drwal', description: 'Zetnij 100 drzew.' },
-          chop500: { name: 'Mistrz Drwali', description: 'Zetnij 500 drzew.' },
-          score50: { name: 'Szybkie Ręce', description: 'Zdobądź 50 pkt.' },
-          score100: { name: 'Demon Prędkości', description: 'Zdobądź 100 pkt.' },
-          coins100: { name: 'Kieszonkowe', description: 'Zdobądź 100 monet.' },
-          coins1000: { name: 'Skarbnik', description: 'Zdobądź 1000 monet.' },
-          noBranch10: { name: 'Szczęściarz', description: 'Zetnij 10 drzew bez gałęzi.' },
-          locked: 'Zablokowane', none: 'Brak osiągnięć'
-        },
-        items: {
-          char_santa: { name: 'Święty', description: 'Dłuższy czas za cięcie (+0.5s)' },
-          char_vampire: { name: 'Wampir', description: 'Dłuższy czas za cięcie (+0.75s)' },
-          char_robot: { name: 'Robot', description: 'Dłuższy czas za cięcie (+1s)' },
-          hat_tophat: { name: 'Cylinder', description: 'Spowalnia czas o 5%' },
-          hat_grad: { name: 'Czapka Absolwenta', description: 'Spowalnia czas o 10%' },
-          hat_crown: { name: 'Korona', description: 'Spowalnia czas o 15%' },
-          axe_sword: { name: 'Miecz', description: '+10% monet za wynik' },        // STARY OPIS: '+1 pkt za cięcie'
-          axe_pickaxe: { name: 'Kilof', description: '+20% monet za wynik' },       // STARY OPIS: '+2 pkt za cięcie'
-          axe_golden: { name: 'Złota Siekiera', description: '+30% monet za wynik' },
-          acc_glasses: { name: 'Okulary 3D', description: 'Monety +10%' },
-          acc_scarf: { name: 'Szalik', description: 'Monety +20%' },
-          pet_dog: { name: 'Piesek', description: '+15% EXP za wynik' },           // STARY OPIS: 'Jednorazowa ochrona'
-          pet_cat: { name: 'Kotek', description: '+15% EXP za wynik' }   
-        },
-        lootboxes: {
-          box_hats_1: { name: 'Zwykła Skrzynia Kapelusznika', description: 'Zawiera pospolite i rzadkie czapki.' },
-          box_hats_2: { name: 'Legendarna Skrzynia Koronna', description: 'Gwarantowana legendarna czapka!' },
-          box_axes_1: { name: 'Skrzynia Drwala', description: 'Zawiera losową siekierę.' },
-          box_characters_1: { name: 'Skrzynia Bohaterów', description: 'Odblokowuje losową postać.' },
-          box_accessories_1: { name: 'Paczka z Akcesoriami', description: 'Zawiera losowe akcesorium.' },
-          box_pets_1: { name: 'Kosz ze Zwierzakiem', description: 'Może zawierać uroczego towarzysza.' }
-        }
-      }
-    },
-    en: {
-      translation: {
-        title: 'TimberKitty',
-        buttons: { loading: 'Loading...', logout: 'Log Out', login: 'Log in with Google' },
-        bottomNav: { shop: 'Shop', equipment: 'Equipment', account: 'Account' },
-        statsPanel: {
-          title: 'Player Profile', guest: 'Guest', coins: 'Coins', level: 'Level', menu: 'Menu', equipment: 'Equipment 🎒', account: 'Account 👤', missions: 'Missions 📜'
-        },
-        startScreen: { ready: 'Ready?', prompt: 'Click the button to start!', play: 'Play!', reset: 'Reset progress' },
-        gameOver: { title: 'Game Over!', result: 'Your score', playAgain: 'Play Again' },
-        instructions: { controls: 'Use keys (A/D, J/L, ←/→) or click to chop the tree.', avoid: 'Avoid the branches!' },
-        shopPanel: { title: 'Shop' },
-        accountHub: {
-          title: 'Player Account',
-          tabs: { stats: 'Statistics', achievements: 'Achievements', missions: 'Missions', profile: 'Profile' },
-          stats_tab: { 
-            high_score: 'High Score', 
-            total_chops: 'Total Chops', 
-            leaderboard: 'Leaderboard 📈',
-            leaderboard_title: '🏆 Player Ranking',
-            leaderboard_highscore: '🎯 High Score',
-            leaderboard_totalchops: '🪓 Total Chops',
-            leaderboard_level: '⭐ Level',
-            leaderboard_coins: '💰 Coins',
-            leaderboard_loading: 'Loading leaderboard...',
-            leaderboard_your_position: 'Your position',
-            leaderboard_rank: 'Rank',
-            leaderboard_score: 'Score',
-            leaderboard_chops: 'Chops',
-            leaderboard_level_label: 'Level',
-            leaderboard_coins_label: 'Coins',
-            post_game_ranking_title: '🏆 New Record!',
-            post_game_ranking_continue: 'Continue'
-          },
-          profile_tab: { 
-            equipment: 'Equipment 🎒', 
-            edit_profile: 'Edit Profile ✏️',
-            guest_message: 'Log in to see your profile and save progress',
-            login_button: 'Log in with Google',
-            logout_button: 'Log Out',
-            change_avatar: 'Change Avatar',
-            change_username: 'Change Username',
-            new_username_label: 'New username',
-            new_username_placeholder: 'Enter new username',
-            max_chars: 'Maximum 50 characters',
-            avatar_preview_text: 'Choose a new avatar from available options',
-            cancel: 'Cancel',
-            save: 'Save'
-          }
-        },
-        gameOver: { 
-            title: 'Game Over!', 
-            result: 'Your score', 
-            playAgain: 'Play Again',
-            returnToMenu: 'Return to Menu' // <-- NEW KEY
-        },
-        mainMenu: {
-            classic: 'Classic Game',
-            competition: 'Competition',
-            birds: 'Save the Birds',
-            challenges: 'Challenges'
-        },
-        classicMenu: {
-            title: 'Classic Mode',
-            start: 'Start',
-            back: 'Back'
-        },
-        birdsMenu: {
-            title: 'Save the Birds',
-            description: 'Choose difficulty level and chop the required number of trunks to save the birds!',
-            easy: 'Easy',
-            medium: 'Medium',
-            hard: 'Hard'
-        },
-        birdsMode: {
-            warning: 'Birds are in danger!',
-            preStart: 'Birds are in danger! Chop {{count}} trunks to save them.',
-            success: 'Birds saved!',
-            fail: 'Failed to save the birds.',
-            playAgain: 'Play again',
-            returnToMenu: 'Return to menu'
-        },
-        competitionMenu: {
-            title: 'Competition',
-            description: 'Choose who you want to compete against!',
-            players: 'Compete with other players',
-            bot: 'Compete with bot'
-        },
-        competitionBotMenu: {
-            title: 'Choose bot difficulty',
-            description: 'Whoever chops the required number of trunks first wins!',
-            easy: 'Easy Bot',
-            medium: 'Medium Bot',
-            hard: 'Hard Bot'
-        },
-        competitionMode: {
-            warning: 'Competition started!',
-            preStart: 'Whoever chops {{count}} trunks first wins!',
-            success: 'You won the competition!',
-            fail: 'You lost the competition.',
-            playAgain: 'Play again',
-            returnToMenu: 'Return to menu'
-        },
-        missions: {
-            daily: 'Daily',
-            weekly: 'Weekly',
-            monthly: 'Monthly',
-            reward: 'Reward',
-            claim: 'Claim',
-            example_chop_desc: 'Chop 50 tree trunks',
-            no_weekly: 'No weekly missions.',
-            no_monthly: 'No monthly missions.',
-            no_daily: 'No daily missions.',
-            loading: 'Loading missions...',
-            in_progress: 'In Progress',
-            claimed: 'Claimed',
-            next_refresh: 'Next refresh:',
-            refresh: 'Refresh',
-            refresh_confirm: 'Are you sure you want to refresh missions for',
-            refresh_success: 'Missions have been refreshed!',
-            refresh_error: 'Error refreshing missions',
-            refresh_no_money: 'Not enough coins!',
-            // Keys from the database
-            'desc.chop_50': 'Chop 50 trunks',
-            'desc.score_30': 'Get 30 points in a single game',
-            'desc.chop_500': 'Chop a total of 500 trunks',
-            'desc.score_100': 'Get 100 points in a single game',
-            'desc.earn_1000': 'Earn a total of 1000 coins'
-        },
-        inventoryHub: { title: 'Inventory' },
-        equipmentModal: { title: 'Choose item', unequip: 'Unequip' },
-        lootbox: { continue: 'Continue' },
-        revealModal: { title: 'New Item Obtained!', button: 'Great!' },
-        categories: { hats: 'Hats', characters: 'Characters', axes: 'Axes', accessories: 'Accessories', pets: 'Pets' },
-        shop: { coins_label: 'coins', buy: 'BUY', buy_open: 'BUY & OPEN', coming_soon: 'COMING SOON', possible_contents: 'Possible contents:' },
-        achievements: {
-          chop10: { name: 'Beginner', description: 'Chop 10 trees.' },
-          chop100: { name: 'Lumberjack', description: 'Chop 100 trees.' },
-          chop500: { name: 'Master Lumberjack', description: 'Chop 500 trees.' },
-          score50: { name: 'Fast Hands', description: 'Score 50 pts.' },
-          score100: { name: 'Speed Demon', description: 'Score 100 pts.' },
-          coins100: { name: 'Pocket Money', description: 'Earn 100 coins.' },
-          coins1000: { name: 'Treasurer', description: 'Earn 1000 coins.' },
-          noBranch10: { name: 'Lucky', description: 'Chop 10 trees without branches.' },
-          locked: 'Locked', none: 'No achievements'
-        },
-        items: {
-          char_santa: { name: 'Santa', description: 'More time per chop (+0.5s)' },
-          char_vampire: { name: 'Vampire', description: 'More time per chop (+0.75s)' },
-          char_robot: { name: 'Robot', description: 'More time per chop (+1s)' },
-          hat_tophat: { name: 'Top Hat', description: 'Slows timer by 5%' },
-          hat_grad: { name: 'Graduate Cap', description: 'Slows timer by 10%' },
-          hat_crown: { name: 'Crown', description: 'Slows timer by 15%' },
-          axe_sword: { name: 'Sword', description: '+10% coins from score' },     // OLD DESC: '+1 pt per chop'
-          axe_pickaxe: { name: 'Pickaxe', description: '+20% coins from score' },   // OLD DESC: '+2 pts per chop'
-          axe_golden: { name: 'Golden Axe', description: '+30% coins from score' },
-          acc_glasses: { name: '3D Glasses', description: 'Coins +10%' },
-          acc_scarf: { name: 'Scarf', description: 'Coins +20%' },
-          pet_dog: { name: 'Puppy', description: '+15% EXP from score' },        // OLD DESC: 'One-time save'
-          pet_cat: { name: 'Kitty', description: '+15% EXP from score' }  
-        },
-        lootboxes: {
-          box_hats_1: { name: 'Common Hatter Crate', description: 'Contains common and rare hats.' },
-          box_hats_2: { name: 'Legendary Crown Crate', description: 'Guaranteed legendary hat!' },
-          box_axes_1: { name: 'Lumberjack Crate', description: 'Contains a random axe.' },
-          box_characters_1: { name: 'Heroes Crate', description: 'Unlocks a random character.' },
-          box_accessories_1: { name: 'Accessories Pack', description: 'Contains a random accessory.' },
-          box_pets_1: { name: 'Pet Basket', description: 'May contain a cute companion.' }
-        }
-      }
+    if (!i18n) {
+        console.error('i18next core nie jest załadowany.');
+        return;
     }
-  };
 
-  const initialLng = localStorage.getItem('i18nextLng') || 'pl';
+    // Wbudowane zasoby tłumaczeń (fallback bez HTTP)
+    const inlineResources = {
+        pl: {
+            translation: {
+                title: 'TimberKitty',
+                buttons: { loading: 'Ładowanie...', logout: 'Wyloguj się', login: 'Zaloguj się z Google' },
+                bottomNav: { shop: 'Sklep', equipment: 'Ekwipunek', account: 'Konto' },
+                statsPanel: {
+                    title: 'Profil Gracza', guest: 'Gość', coins: 'Monety', level: 'Poziom', menu: 'Menu', equipment: 'Ekwipunek 🎒', account: 'Konto 👤', missions: 'Misje 📜'
+                },
+                startScreen: { ready: 'Gotowy?', prompt: 'Kliknij przycisk, aby rozpocząć!', play: 'Graj!', reset: 'Zresetuj postęp' },
+                gameOver: { title: 'Koniec Gry!', result: 'Twój wynik', playAgain: 'Zagraj Ponownie' },
+                instructions: { controls: 'Użyj klawiszy (A/D, J/L, ←/→) lub kliknij, aby ścinać drzewo.', avoid: 'Omijaj gałęzie!' },
+                shopPanel: { title: 'Sklep' },
+                accountHub: {
+                    title: 'Konto Gracza',
+                    tabs: { stats: 'Statystyki', achievements: 'Osiągnięcia', missions: 'Misje', profile: 'Profil' },
+                    stats_tab: {
+                        high_score: 'Najlepszy Wynik',
+                        total_chops: 'Suma Ściętych',
+                        leaderboard: 'Ranking 📈',
+                        leaderboard_title: '🏆 Ranking Graczy',
+                        leaderboard_highscore: '🎯 Najlepszy Wynik',
+                        leaderboard_totalchops: '🪓 Suma Ściętych',
+                        leaderboard_level: '⭐ Poziom',
+                        leaderboard_coins: '💰 Monety',
+                        leaderboard_loading: 'Ładowanie rankingu...',
+                        leaderboard_your_position: 'Twoja pozycja',
+                        leaderboard_rank: 'Miejsce',
+                        leaderboard_score: 'Wynik',
+                        leaderboard_chops: 'Ścięte',
+                        leaderboard_level_label: 'Poziom',
+                        leaderboard_coins_label: 'Monety',
+                        post_game_ranking_title: '🏆 Nowy Rekord!',
+                        post_game_ranking_continue: 'Kontynuuj'
+                    },
+                    profile_tab: {
+                        equipment: 'Ekwipunek 🎒',
+                        edit_profile: 'Edytuj Profil ✏️',
+                        guest_message: 'Zaloguj się, aby zobaczyć swój profil i zapisywać postęp',
+                        login_button: 'Zaloguj się przez Google',
+                        logout_button: 'Wyloguj się',
+                        change_avatar: 'Zmień Avatar',
+                        change_username: 'Zmień Nazwę',
+                        new_username_label: 'Nowa nazwa użytkownika',
+                        new_username_placeholder: 'Wprowadź nową nazwę',
+                        max_chars: 'Maksymalnie 50 znaków',
+                        avatar_preview_text: 'Wybierz nowy avatar z dostępnych opcji',
+                        cancel: 'Anuluj',
+                        save: 'Zapisz'
+                    }
+                },
+                gameOver: {
+                    title: 'Koniec Gry!',
+                    result: 'Twój wynik',
+                    playAgain: 'Zagraj Ponownie',
+                    returnToMenu: 'Powrót do Menu' // <-- NOWY KLUCZ
+                },
+                mainMenu: {
+                    classic: 'Gra Zwykła',
+                    competition: 'Rywalizacja',
+                    birds: 'Uratuj Ptaki',
+                    challenges: 'Wyzwania'
+                },
+                classicMenu: {
+                    title: 'Tryb Klasyczny',
+                    start: 'Rozpocznij',
+                    back: 'Powrót'
+                },
+                birdsMenu: {
+                    title: 'Uratuj Ptaki',
+                    description: 'Wybierz poziom trudności i zetnij wymaganą liczbę pni, aby uratować ptaki!',
+                    easy: 'Łatwy',
+                    medium: 'Średni',
+                    hard: 'Trudny'
+                },
+                birdsMode: {
+                    warning: 'Ptaki są w niebezpieczeństwie!',
+                    preStart: 'Ptaki są w niebezpieczeństwie! Zetnij {{count}} pni, aby je ochronić.',
+                    success: 'Ptaki uratowane!',
+                    fail: 'Nie udało się uratować ptaków.',
+                    playAgain: 'Zagraj jeszcze raz',
+                    returnToMenu: 'Powrót do menu'
+                },
+                competitionMenu: {
+                    title: 'Rywalizacja',
+                    description: 'Wybierz z kim chcesz rywalizować!',
+                    players: 'Rywalizuj z innymi graczami',
+                    bot: 'Rywalizuj z botem'
+                },
+                competitionBotMenu: {
+                    title: 'Wybierz trudność bota',
+                    description: 'Kto pierwszy zetnie wymaganą liczbę pni wygrywa!',
+                    easy: 'Łatwy Bot',
+                    medium: 'Średni Bot',
+                    hard: 'Trudny Bot'
+                },
+                competitionMode: {
+                    warning: 'Rywalizacja rozpoczęta!',
+                    preStart: 'Kto pierwszy zetnie {{count}} pni wygrywa!',
+                    success: 'Wygrałeś rywalizację!',
+                    fail: 'Przegrałeś rywalizację.',
+                    playAgain: 'Zagraj jeszcze raz',
+                    returnToMenu: 'Powrót do menu'
+                },
+                missions: {
+                    daily: 'Dzienne',
+                    weekly: 'Tygodniowe',
+                    monthly: 'Miesięczne',
+                    reward: 'Nagroda',
+                    claim: 'Odbierz',
+                    example_chop_desc: 'Zetnij 50 pni drzewa',
+                    no_weekly: 'Brak misji tygodniowych.',
+                    no_monthly: 'Brak misji miesięcznych.',
+                    no_daily: 'Brak misji dziennych.',
+                    loading: 'Ładowanie misji...',
+                    in_progress: 'W toku',
+                    claimed: 'Odebrano',
+                    next_refresh: 'Następne odświeżenie:',
+                    refresh: 'Odśwież',
+                    refresh_confirm: 'Czy na pewno chcesz odświeżyć misje za',
+                    refresh_success: 'Misje zostały odświeżone!',
+                    refresh_error: 'Błąd odświeżania misji',
+                    refresh_no_money: 'Za mało monet!',
+                    'desc.chop_50': 'Zetnij 50 pni',
+                    'desc.score_30': 'Zdobądź 30 punktów w jednej grze',
+                    'desc.chop_500': 'Zetnij łącznie 500 pni',
+                    'desc.score_100': 'Zdobądź 100 punktów w jednej grze',
+                    'desc.earn_1000': 'Zarób łącznie 1000 monet'
+                },
+                inventoryHub: { title: 'Ekwipunek' },
+                equipmentModal: { title: 'Wybierz przedmiot', unequip: 'Zdejmij przedmiot' },
+                lootbox: { continue: 'Kontynuuj' },
+                revealModal: { title: 'Zdobyto Nowy Przedmiot!', button: 'Super!' },
+                categories: { hats: 'Czapki', characters: 'Postacie', axes: 'Siekiery', accessories: 'Akcesoria', pets: 'Zwierzaki' },
+                shop: { coins_label: 'monet', buy: 'KUP', buy_open: 'KUP i OTWÓRZ', coming_soon: 'WKRÓTCE DOSTĘPNE', possible_contents: 'Możliwa zawartość:' },
+                achievements: {
+                    chop10: { name: 'Początkujący', description: 'Zetnij 10 drzew.' },
+                    chop100: { name: 'Drwal', description: 'Zetnij 100 drzew.' },
+                    chop500: { name: 'Mistrz Drwali', description: 'Zetnij 500 drzew.' },
+                    score50: { name: 'Szybkie Ręce', description: 'Zdobądź 50 pkt.' },
+                    score100: { name: 'Demon Prędkości', description: 'Zdobądź 100 pkt.' },
+                    coins100: { name: 'Kieszonkowe', description: 'Zdobądź 100 monet.' },
+                    coins1000: { name: 'Skarbnik', description: 'Zdobądź 1000 monet.' },
+                    noBranch10: { name: 'Szczęściarz', description: 'Zetnij 10 drzew bez gałęzi.' },
+                    locked: 'Zablokowane', none: 'Brak osiągnięć'
+                },
+                items: {
+                    char_santa: { name: 'Święty', description: 'Dłuższy czas za cięcie (+0.5s)' },
+                    char_vampire: { name: 'Wampir', description: 'Dłuższy czas za cięcie (+0.75s)' },
+                    char_robot: { name: 'Robot', description: 'Dłuższy czas za cięcie (+1s)' },
+                    hat_tophat: { name: 'Cylinder', description: 'Spowalnia czas o 5%' },
+                    hat_grad: { name: 'Czapka Absolwenta', description: 'Spowalnia czas o 10%' },
+                    hat_crown: { name: 'Korona', description: 'Spowalnia czas o 15%' },
+                    axe_sword: { name: 'Miecz', description: '+10% monet za wynik' },        // STARY OPIS: '+1 pkt za cięcie'
+                    axe_pickaxe: { name: 'Kilof', description: '+20% monet za wynik' },       // STARY OPIS: '+2 pkt za cięcie'
+                    axe_golden: { name: 'Złota Siekiera', description: '+30% monet za wynik' },
+                    acc_glasses: { name: 'Okulary 3D', description: 'Monety +10%' },
+                    acc_scarf: { name: 'Szalik', description: 'Monety +20%' },
+                    pet_dog: { name: 'Piesek', description: '+15% EXP za wynik' },           // STARY OPIS: 'Jednorazowa ochrona'
+                    pet_cat: { name: 'Kotek', description: '+15% EXP za wynik' }
+                },
+                lootboxes: {
+                    box_hats_1: { name: 'Zwykła Skrzynia Kapelusznika', description: 'Zawiera pospolite i rzadkie czapki.' },
+                    box_hats_2: { name: 'Legendarna Skrzynia Koronna', description: 'Gwarantowana legendarna czapka!' },
+                    box_axes_1: { name: 'Skrzynia Drwala', description: 'Zawiera losową siekierę.' },
+                    box_characters_1: { name: 'Skrzynia Bohaterów', description: 'Odblokowuje losową postać.' },
+                    box_accessories_1: { name: 'Paczka z Akcesoriami', description: 'Zawiera losowe akcesorium.' },
+                    box_pets_1: { name: 'Kosz ze Zwierzakiem', description: 'Może zawierać uroczego towarzysza.' }
+                }
+            }
+        },
+        en: {
+            translation: {
+                title: 'TimberKitty',
+                buttons: { loading: 'Loading...', logout: 'Log Out', login: 'Log in with Google' },
+                bottomNav: { shop: 'Shop', equipment: 'Equipment', account: 'Account' },
+                statsPanel: {
+                    title: 'Player Profile', guest: 'Guest', coins: 'Coins', level: 'Level', menu: 'Menu', equipment: 'Equipment 🎒', account: 'Account 👤', missions: 'Missions 📜'
+                },
+                startScreen: { ready: 'Ready?', prompt: 'Click the button to start!', play: 'Play!', reset: 'Reset progress' },
+                gameOver: { title: 'Game Over!', result: 'Your score', playAgain: 'Play Again' },
+                instructions: { controls: 'Use keys (A/D, J/L, ←/→) or click to chop the tree.', avoid: 'Avoid the branches!' },
+                shopPanel: { title: 'Shop' },
+                accountHub: {
+                    title: 'Player Account',
+                    tabs: { stats: 'Statistics', achievements: 'Achievements', missions: 'Missions', profile: 'Profile' },
+                    stats_tab: {
+                        high_score: 'High Score',
+                        total_chops: 'Total Chops',
+                        leaderboard: 'Leaderboard 📈',
+                        leaderboard_title: '🏆 Player Ranking',
+                        leaderboard_highscore: '🎯 High Score',
+                        leaderboard_totalchops: '🪓 Total Chops',
+                        leaderboard_level: '⭐ Level',
+                        leaderboard_coins: '💰 Coins',
+                        leaderboard_loading: 'Loading leaderboard...',
+                        leaderboard_your_position: 'Your position',
+                        leaderboard_rank: 'Rank',
+                        leaderboard_score: 'Score',
+                        leaderboard_chops: 'Chops',
+                        leaderboard_level_label: 'Level',
+                        leaderboard_coins_label: 'Coins',
+                        post_game_ranking_title: '🏆 New Record!',
+                        post_game_ranking_continue: 'Continue'
+                    },
+                    profile_tab: {
+                        equipment: 'Equipment 🎒',
+                        edit_profile: 'Edit Profile ✏️',
+                        guest_message: 'Log in to see your profile and save progress',
+                        login_button: 'Log in with Google',
+                        logout_button: 'Log Out',
+                        change_avatar: 'Change Avatar',
+                        change_username: 'Change Username',
+                        new_username_label: 'New username',
+                        new_username_placeholder: 'Enter new username',
+                        max_chars: 'Maximum 50 characters',
+                        avatar_preview_text: 'Choose a new avatar from available options',
+                        cancel: 'Cancel',
+                        save: 'Save'
+                    }
+                },
+                gameOver: {
+                    title: 'Game Over!',
+                    result: 'Your score',
+                    playAgain: 'Play Again',
+                    returnToMenu: 'Return to Menu' // <-- NEW KEY
+                },
+                mainMenu: {
+                    classic: 'Classic Game',
+                    competition: 'Competition',
+                    birds: 'Save the Birds',
+                    challenges: 'Challenges'
+                },
+                classicMenu: {
+                    title: 'Classic Mode',
+                    start: 'Start',
+                    back: 'Back'
+                },
+                birdsMenu: {
+                    title: 'Save the Birds',
+                    description: 'Choose difficulty level and chop the required number of trunks to save the birds!',
+                    easy: 'Easy',
+                    medium: 'Medium',
+                    hard: 'Hard'
+                },
+                birdsMode: {
+                    warning: 'Birds are in danger!',
+                    preStart: 'Birds are in danger! Chop {{count}} trunks to save them.',
+                    success: 'Birds saved!',
+                    fail: 'Failed to save the birds.',
+                    playAgain: 'Play again',
+                    returnToMenu: 'Return to menu'
+                },
+                competitionMenu: {
+                    title: 'Competition',
+                    description: 'Choose who you want to compete against!',
+                    players: 'Compete with other players',
+                    bot: 'Compete with bot'
+                },
+                competitionBotMenu: {
+                    title: 'Choose bot difficulty',
+                    description: 'Whoever chops the required number of trunks first wins!',
+                    easy: 'Easy Bot',
+                    medium: 'Medium Bot',
+                    hard: 'Hard Bot'
+                },
+                competitionMode: {
+                    warning: 'Competition started!',
+                    preStart: 'Whoever chops {{count}} trunks first wins!',
+                    success: 'You won the competition!',
+                    fail: 'You lost the competition.',
+                    playAgain: 'Play again',
+                    returnToMenu: 'Return to menu'
+                },
+                missions: {
+                    daily: 'Daily',
+                    weekly: 'Weekly',
+                    monthly: 'Monthly',
+                    reward: 'Reward',
+                    claim: 'Claim',
+                    example_chop_desc: 'Chop 50 tree trunks',
+                    no_weekly: 'No weekly missions.',
+                    no_monthly: 'No monthly missions.',
+                    no_daily: 'No daily missions.',
+                    loading: 'Loading missions...',
+                    in_progress: 'In Progress',
+                    claimed: 'Claimed',
+                    next_refresh: 'Next refresh:',
+                    refresh: 'Refresh',
+                    refresh_confirm: 'Are you sure you want to refresh missions for',
+                    refresh_success: 'Missions have been refreshed!',
+                    refresh_error: 'Error refreshing missions',
+                    refresh_no_money: 'Not enough coins!',
+                    // Keys from the database
+                    'desc.chop_50': 'Chop 50 trunks',
+                    'desc.score_30': 'Get 30 points in a single game',
+                    'desc.chop_500': 'Chop a total of 500 trunks',
+                    'desc.score_100': 'Get 100 points in a single game',
+                    'desc.earn_1000': 'Earn a total of 1000 coins'
+                },
+                inventoryHub: { title: 'Inventory' },
+                equipmentModal: { title: 'Choose item', unequip: 'Unequip' },
+                lootbox: { continue: 'Continue' },
+                revealModal: { title: 'New Item Obtained!', button: 'Great!' },
+                categories: { hats: 'Hats', characters: 'Characters', axes: 'Axes', accessories: 'Accessories', pets: 'Pets' },
+                shop: { coins_label: 'coins', buy: 'BUY', buy_open: 'BUY & OPEN', coming_soon: 'COMING SOON', possible_contents: 'Possible contents:' },
+                achievements: {
+                    chop10: { name: 'Beginner', description: 'Chop 10 trees.' },
+                    chop100: { name: 'Lumberjack', description: 'Chop 100 trees.' },
+                    chop500: { name: 'Master Lumberjack', description: 'Chop 500 trees.' },
+                    score50: { name: 'Fast Hands', description: 'Score 50 pts.' },
+                    score100: { name: 'Speed Demon', description: 'Score 100 pts.' },
+                    coins100: { name: 'Pocket Money', description: 'Earn 100 coins.' },
+                    coins1000: { name: 'Treasurer', description: 'Earn 1000 coins.' },
+                    noBranch10: { name: 'Lucky', description: 'Chop 10 trees without branches.' },
+                    locked: 'Locked', none: 'No achievements'
+                },
+                items: {
+                    char_santa: { name: 'Santa', description: 'More time per chop (+0.5s)' },
+                    char_vampire: { name: 'Vampire', description: 'More time per chop (+0.75s)' },
+                    char_robot: { name: 'Robot', description: 'More time per chop (+1s)' },
+                    hat_tophat: { name: 'Top Hat', description: 'Slows timer by 5%' },
+                    hat_grad: { name: 'Graduate Cap', description: 'Slows timer by 10%' },
+                    hat_crown: { name: 'Crown', description: 'Slows timer by 15%' },
+                    axe_sword: { name: 'Sword', description: '+10% coins from score' },     // OLD DESC: '+1 pt per chop'
+                    axe_pickaxe: { name: 'Pickaxe', description: '+20% coins from score' },   // OLD DESC: '+2 pts per chop'
+                    axe_golden: { name: 'Golden Axe', description: '+30% coins from score' },
+                    acc_glasses: { name: '3D Glasses', description: 'Coins +10%' },
+                    acc_scarf: { name: 'Scarf', description: 'Coins +20%' },
+                    pet_dog: { name: 'Puppy', description: '+15% EXP from score' },        // OLD DESC: 'One-time save'
+                    pet_cat: { name: 'Kitty', description: '+15% EXP from score' }
+                },
+                lootboxes: {
+                    box_hats_1: { name: 'Common Hatter Crate', description: 'Contains common and rare hats.' },
+                    box_hats_2: { name: 'Legendary Crown Crate', description: 'Guaranteed legendary hat!' },
+                    box_axes_1: { name: 'Lumberjack Crate', description: 'Contains a random axe.' },
+                    box_characters_1: { name: 'Heroes Crate', description: 'Unlocks a random character.' },
+                    box_accessories_1: { name: 'Accessories Pack', description: 'Contains a random accessory.' },
+                    box_pets_1: { name: 'Pet Basket', description: 'May contain a cute companion.' }
+                }
+            }
+        }
+    };
 
-  i18n.init({
-    fallbackLng: 'pl',
-    debug: true,
-    lng: initialLng,
-    resources: inlineResources
-  }, (err) => {
-    if (err) console.error('i18next init error:', err);
-    console.log('[i18n] initialized with', i18n.language);
-    if (typeof updateContent === 'function') updateContent();
-  });
+    const initialLng = localStorage.getItem('i18nextLng') || 'pl';
+
+    i18n.init({
+        fallbackLng: 'pl',
+        debug: true,
+        lng: initialLng,
+        resources: inlineResources
+    }, (err) => {
+        if (err) console.error('i18next init error:', err);
+        console.log('[i18n] initialized with', i18n.language);
+        if (typeof updateContent === 'function') updateContent();
+    });
 }
 
 // Odpal próbę inicjalizacji (jeśli pluginów jeszcze nie ma, funkcja sama ponowi próbę)
@@ -572,15 +572,15 @@ const gameContainer = document.getElementById('game-container');
 //const TIMER_HEIGHT = 32;
 // Stałe gry
 
-let TRUNK_WIDTH, TRUNK_X, SEGMENT_HEIGHT, PLAYER_HEIGHT, PLAYER_WIDTH, 
-    BRANCH_WIDTH, BRANCH_HEIGHT, GROUND_HEIGHT, PLAYER_OFFSET_X, LUNGE_MULTIPLIER; 
-    // wysokość timera + marginesy (24px + 8px)
+let TRUNK_WIDTH, TRUNK_X, SEGMENT_HEIGHT, PLAYER_HEIGHT, PLAYER_WIDTH,
+    BRANCH_WIDTH, BRANCH_HEIGHT, GROUND_HEIGHT, PLAYER_OFFSET_X, LUNGE_MULTIPLIER;
+// wysokość timera + marginesy (24px + 8px)
 canvas.width = gameContainer.clientWidth;
 canvas.height = window.innerHeight * 0.7;
-gameContainer.style.height = `${canvas.height}px`; 
+gameContainer.style.height = `${canvas.height}px`;
 
 // Dodaj miejsce dla timera
-recalculateGameConstants(); 
+recalculateGameConstants();
 // Ustaw początkowy stan menu z odpowiednią wysokością
 gameContainer.classList.add('menu-state');
 
@@ -621,37 +621,37 @@ let petSaveUsed = false;
 
 // --- Konfiguracja trybu ptaków ---
 const BIRDS_CONFIG = {
-  ranges: {
-    easy:   { min: 100, max: 300 },
-    medium: { min: 400, max: 600 },
-    hard:   { min: 700, max: 1000 },
-  },
-  rewards: {
-    easy:   { coins: 50, exp: 25 },
-    medium: { coins: 100, exp: 50 },
-    hard:   { coins: 200, exp: 100 },
-  },
-  totalChopsPolicy: 'UPDATE' // 'UPDATE' lub 'NO_UPDATE'
+    ranges: {
+        easy: { min: 100, max: 300 },
+        medium: { min: 400, max: 600 },
+        hard: { min: 700, max: 1000 },
+    },
+    rewards: {
+        easy: { coins: 50, exp: 25 },
+        medium: { coins: 100, exp: 50 },
+        hard: { coins: 200, exp: 100 },
+    },
+    totalChopsPolicy: 'UPDATE' // 'UPDATE' lub 'NO_UPDATE'
 };
 
 // --- Konfiguracja trybu rywalizacji ---
 const COMPETITION_CONFIG = {
     targetRange: { min: 600, max: 900 }, // Zawsze ten sam zakres
     botDifficulty: {
-      easy:   { reactionTime: 150, accuracy: 0.6, avoidChance: 0.80 },   // 80% szansy na unik
-      medium: { reactionTime: 100,  accuracy: 0.8, avoidChance: 0.95 },   // 95% szansy na unik
-      hard:   { reactionTime: 50,  accuracy: 0.95, avoidChance: 1.0 }    // 100% szansy na unik (nigdy się nie myli)
+        easy: { reactionTime: 150, accuracy: 0.6, avoidChance: 0.80 },   // 80% szansy na unik
+        medium: { reactionTime: 100, accuracy: 0.8, avoidChance: 0.95 },   // 95% szansy na unik
+        hard: { reactionTime: 50, accuracy: 0.95, avoidChance: 1.0 }    // 100% szansy na unik (nigdy się nie myli)
     },
     timeoutDuration: 2000, // 2 sekundy timeoutu
     rewards: {
         win: {
-          easy:   { coins: 75, exp: 30 },   // Mała nagroda
-          medium: { coins: 150, exp: 75 },  // Średnia nagroda
-          hard:   { coins: 300, exp: 150 }   // Duża nagroda
+            easy: { coins: 75, exp: 30 },   // Mała nagroda
+            medium: { coins: 150, exp: 75 },  // Średnia nagroda
+            hard: { coins: 300, exp: 150 }   // Duża nagroda
         },
         lose: { coins: 0, exp: 0 } // Brak nagrody za przegraną
-      }
-  };
+    }
+};
 
 // Zmienne stanu trybu ptaków
 let birdsDifficulty = null; // 'easy' | 'medium' | 'hard'
@@ -717,7 +717,7 @@ const spritePaths = {
 function loadSprites() {
     let loadedCount = 0;
     const totalSprites = Object.keys(spritePaths).length;
-    
+
     return new Promise((resolve, reject) => {
         for (const key in spritePaths) {
             const img = new Image();
@@ -859,7 +859,7 @@ const lootBoxData = {
         }
     ],
     'accessories': [
-         {
+        {
             id: 'box_accessories_1',
             name: 'Paczka z Akcesoriami',
             price: 500,
@@ -920,13 +920,13 @@ function calculateLevel(exp) {
     let level = 1;
     let requiredExp = 50;
     let currentExp = exp;
-    
+
     while (currentExp >= requiredExp) {
         currentExp -= requiredExp;
         level++;
         requiredExp = Math.floor(requiredExp * 1.5); // x1.5 dla każdego poziomu
     }
-    
+
     return level;
 }
 
@@ -934,12 +934,12 @@ function getExpForLevel(level) {
     if (level <= 1) return 0;
     let totalExp = 0;
     let requiredExp = 50;
-    
+
     for (let i = 2; i <= level; i++) {
         totalExp += requiredExp;
         requiredExp = Math.floor(requiredExp * 1.5);
     }
-    
+
     return totalExp;
 }
 
@@ -949,7 +949,7 @@ function getExpProgress(exp) {
     const expForNextLevel = getExpForLevel(currentLevel + 1);
     const expNeededForNextLevel = expForNextLevel - expForCurrentLevel;
     const currentLevelExp = exp - expForCurrentLevel;
-    
+
     return {
         currentLevel,
         currentLevelExp,
@@ -989,12 +989,12 @@ async function updateAndSaveStats(scoreFromGame, oldStats, options = {}) {
     // - mode: 'classic' | 'birds'
     // - birds: { success: boolean, coinsReward?: number, expReward?: number, countChopsInTotal?: boolean }
     // - overrideScoreContributions?: boolean // jeśli true, to highScore/coins/exp nie liczą się z "scoreFromGame"
-    
+
     let coinsEarned = 0;
     let expEarned = 0;
     let newHighScore = oldStats.highScore;
     let newTotalChops = oldStats.totalChops;
-    
+
     if (options.mode === 'birds') {
         // Tryb ptaków - nie naliczaj standardowych nagród ze score
         if (options.birds && options.birds.success) {
@@ -1062,7 +1062,7 @@ async function updateAndSaveStats(scoreFromGame, oldStats, options = {}) {
 
 async function animateStatUpdate(oldStats, score, options = {}) {
     const newStats = await updateAndSaveStats(score, oldStats, options);
-    
+
     // Zawsze odśwież misje po grze, aby były aktualne
     console.log('Odświeżanie misji po grze...');
     fetchAndDisplayMissions(true); // Wymuś odświeżenie po grze
@@ -1116,7 +1116,7 @@ async function animateStatUpdate(oldStats, score, options = {}) {
                     levelStatBox.classList.remove('stat-update-animation');
                 }, 500);
             }
-            
+
             // Jeśli zlevelował, uruchom specjalną animację
             if (leveledUp) {
                 animateLevelUp(newLevel);
@@ -1133,10 +1133,10 @@ function animateLevelUp(newLevel) {
 
     // Dodaj klasę animacji levelowania
     levelStatBox.classList.add('level-up-animation');
-    
+
     // Pokaż powiadomienie o levelowaniu
     showNotification(`🎉 Poziom ${newLevel}! 🎉`, 'success');
-    
+
     // Zakończ animację levelowania po krótkim czasie
     setTimeout(() => {
         levelStatBox.classList.remove('level-up-animation');
@@ -1157,21 +1157,21 @@ async function confirmReset() {
                 headers: { 'Content-Type': 'application/json' },
                 credentials: 'include'
             });
-            
+
             if (!response.ok) throw new Error('Błąd resetowania na serwerze');
-            
+
             const resetUser = await response.json();
             currentUser = resetUser;
         } else {
             // Resetuj postęp w localStorage (tryb gościa)
             localStorage.removeItem('timbermanStats');
         }
-        
+
         // Zaktualizuj UI
         updateStatsUI(loadStats());
         closeModal(resetWarningModal);
         showNotification('Postęp został zresetowany!', 'success');
-        
+
     } catch (error) {
         console.error('Błąd resetowania postępu:', error);
         showNotification('Wystąpił błąd podczas resetowania', 'error');
@@ -1257,17 +1257,17 @@ function populateShopModal(categoryKey) {
         const coinsLabel = (window.i18next && i18next.isInitialized) ? i18next.t('shop.coins_label') : 'monet';
         const buyLabel = (window.i18next && i18next.isInitialized) ? i18next.t('shop.buy') : 'KUP';
         let bottomContent = `<div class="w-full mt-auto"><div class="text-amber-400 font-bold mb-2">${item.price} ${coinsLabel}</div><button class="buy-button">${buyLabel}</button></div>`;
-        
+
         // Dodaj wskaźnik ilości, jeśli posiadamy przedmiot
         let quantityBadge = quantityOwned > 0 ? `<div class="item-quantity-badge">x${quantityOwned}</div>` : '';
 
         card.innerHTML = `${quantityBadge}<div class="text-4xl">${item.icon}</div><div class="font-bold text-base">${name}</div><div class="text-sm text-gray-300 px-1 leading-tight">${desc}</div>${bottomContent}`;
-        
+
         card.querySelector('.buy-button').addEventListener('click', (e) => {
             e.stopPropagation();
             buyItem(item.id, card);
         });
-        
+
         shopGrid.appendChild(card);
     });
 }
@@ -1341,7 +1341,7 @@ function renderMissionCards(missions) {
             const inProgressText = (window.i18next && i18next.isInitialized) ? i18next.t('missions.in_progress') : 'W toku';
             buttonHTML = `<button class="claim-button" disabled>${inProgressText}</button>`;
         }
-        
+
         // Dodaj przycisk refresh do każdej misji (tylko jeśli nie jest odebrana)
         if (!mission.is_claimed) {
             const refreshCost = getRefreshCost(mission.time_category);
@@ -1389,20 +1389,20 @@ function renderMissionCards(missions) {
     } else {
         monthlyContainer.innerHTML = `<p class="text-center text-gray-500">${(window.i18next && i18next.isInitialized) ? i18next.t('missions.no_monthly') : 'Brak misji miesięcznych.'}</p>`;
     }
-    
+
 }
 
 async function fetchAndDisplayMissions(forceRefresh = false) {
     const dailyContainer = document.getElementById('daily-missions-content');
     const weeklyContainer = document.getElementById('weekly-missions-content');
     const monthlyContainer = document.getElementById('monthly-missions-content');
-    
+
     if (!dailyContainer) return;
 
     // Sprawdź cache - jeśli mamy dane z ostatnich 30 sekund, użyj ich
     const now = Date.now();
     const cacheValid = missionsCache && (now - missionsLastFetch) < 30000; // 30 sekund cache
-    
+
     if (cacheValid && !forceRefresh) {
         console.log('Używanie cache misji');
         renderMissionCards(missionsCache);
@@ -1417,25 +1417,25 @@ async function fetchAndDisplayMissions(forceRefresh = false) {
             <p class="text-center text-gray-400">${(window.i18next && i18next.isInitialized) ? i18next.t('missions.loading') : 'Ładowanie misji...'}</p>
         </div>
     `;
-    
+
     dailyContainer.innerHTML = loadingHTML;
     if (weeklyContainer) weeklyContainer.innerHTML = loadingHTML;
     if (monthlyContainer) monthlyContainer.innerHTML = loadingHTML;
 
     try {
         const response = await fetch(`${BACKEND_URL}/api/missions`, { credentials: 'include' });
-        
+
         if (!response.ok) {
             const errorData = await response.json();
             throw new Error(errorData.message || 'Nie udało się załadować misji');
         }
-        
+
         const missions = await response.json();
-        
+
         // Zaktualizuj cache
         missionsCache = missions;
         missionsLastFetch = now;
-        
+
         renderMissionCards(missions);
         updateMissionRefreshTimer();
 
@@ -1449,7 +1449,7 @@ async function fetchAndDisplayMissions(forceRefresh = false) {
 
 async function claimMissionReward(missionId) {
     console.log(`Próba odebrania nagrody za misję o ID: ${missionId}`);
-    
+
     // Opcjonalnie: znajdź przycisk i go zablokuj, by uniknąć podwójnych kliknięć
     const button = document.querySelector(`button[onclick="claimMissionReward(${missionId})"]`);
     if (button) {
@@ -1470,7 +1470,7 @@ async function claimMissionReward(missionId) {
         if (!response.ok) {
             throw new Error(result.message);
         }
-        
+
         // Sukces!
         showNotification(result.message || 'Nagroda odebrana!', 'success');
 
@@ -1484,7 +1484,7 @@ async function claimMissionReward(missionId) {
     } catch (error) {
         showNotification(error.message, 'error');
         // Jeśli wystąpił błąd, odśwież misje, aby przywrócić przycisk do stanu "Odbierz"
-        fetchAndDisplayMissions(true); 
+        fetchAndDisplayMissions(true);
     }
 }
 
@@ -1499,22 +1499,22 @@ async function refreshSingleMission(missionId, timeCategory) {
         showNotification('Musisz być zalogowany, aby odświeżyć misje!', 'error');
         return;
     }
-    
+
     const cost = getRefreshCost(timeCategory);
     const stats = loadStats();
-    
+
     if (stats.coins < cost) {
         const noMoneyText = (window.i18next && i18next.isInitialized) ? i18next.t('missions.refresh_no_money') : 'Za mało monet!';
         showNotification(noMoneyText, 'error');
         return;
     }
-    
+
     // Potwierdź odświeżenie
     const confirmText = (window.i18next && i18next.isInitialized) ? i18next.t('missions.refresh_confirm') : 'Czy na pewno chcesz odświeżyć tę misję za';
     if (!confirm(`${confirmText} ${cost} monet?`)) {
         return;
     }
-    
+
     try {
         const response = await fetch(`${BACKEND_URL}/api/missions/refresh-single`, {
             method: 'POST',
@@ -1522,25 +1522,25 @@ async function refreshSingleMission(missionId, timeCategory) {
             credentials: 'include',
             body: JSON.stringify({ missionId: missionId, timeCategory: timeCategory })
         });
-        
+
         const result = await response.json();
-        
+
         if (!response.ok) {
             throw new Error(result.message || 'Błąd odświeżania misji');
         }
-        
+
         // Sukces!
         const successText = (window.i18next && i18next.isInitialized) ? i18next.t('missions.refresh_success') : 'Misja została odświeżona!';
         showNotification(successText, 'success');
-        
+
         // Zaktualizuj dane użytkownika
         currentUser = result.updatedUser;
         updateStatsUI(loadStats());
-        
+
         // Odśwież misje
         missionsCache = null; // Wyczyść cache
         fetchAndDisplayMissions(true);
-        
+
     } catch (error) {
         const errorText = (window.i18next && i18next.isInitialized) ? i18next.t('missions.refresh_error') : 'Błąd odświeżania misji';
         showNotification(`${errorText}: ${error.message}`, 'error');
@@ -1549,10 +1549,10 @@ async function refreshSingleMission(missionId, timeCategory) {
 
 function updateMissionRefreshTimer() {
     if (!missionsCache) return;
-    
+
     const now = new Date();
     let nextRefresh = null;
-    
+
     // Oblicz następne odświeżenie na podstawie aktualnego typu misji
     switch (currentMissionType) {
         case 'daily':
@@ -1570,7 +1570,7 @@ function updateMissionRefreshTimer() {
             nextRefresh = new Date(now.getFullYear(), now.getMonth() + 1, 1);
             break;
     }
-    
+
     if (nextRefresh) {
         startMissionTimer(nextRefresh);
     }
@@ -1580,30 +1580,30 @@ function startMissionTimer(nextRefresh) {
     if (missionRefreshTimer) {
         clearInterval(missionRefreshTimer);
     }
-    
+
     const timerElement = document.getElementById('mission-refresh-timer');
     if (!timerElement) return;
-    
+
     function updateTimer() {
         const now = new Date();
         const diff = nextRefresh - now;
-        
+
         if (diff <= 0) {
             timerElement.textContent = 'Dostępne!';
             clearInterval(missionRefreshTimer);
             console.log('Timer zakończony, odświeżam misje...');
-            fetchAndDisplayMissions(true); 
-            
+            fetchAndDisplayMissions(true);
+
             return;
         }
-        
+
         const hours = Math.floor(diff / (1000 * 60 * 60));
         const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
         const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-        
+
         timerElement.textContent = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
     }
-    
+
     updateTimer();
     missionRefreshTimer = setInterval(updateTimer, 1000);
 }
@@ -1628,8 +1628,8 @@ async function openLootbox(boxId, cardElement) {
         }
     }
     if (!boxData) {
-         showNotification('Nie znaleziono takiej skrzynki!', 'error');
-         return;
+        showNotification('Nie znaleziono takiej skrzynki!', 'error');
+        return;
     }
 
     buyButton.textContent = 'Otwieram...';
@@ -1644,7 +1644,7 @@ async function openLootbox(boxId, cardElement) {
         });
 
         const data = await response.json();
-        
+
 
         if (!response.ok) {
             throw new Error(data.message);
@@ -1655,7 +1655,7 @@ async function openLootbox(boxId, cardElement) {
         updateStatsUI(loadStats()); // Odśwież UI z nową liczbą monet
 
         // TODO: W przyszłości tutaj uruchomimy animację otwierania skrzynki
-                closeModal(shopModal); // Zamknij modal sklepu, aby zrobić miejsce
+        closeModal(shopModal); // Zamknij modal sklepu, aby zrobić miejsce
         playLootboxAnimation(
             boxData.lootPool.find(i => i.itemId === data.wonItem.id),
             boxData
@@ -1719,8 +1719,8 @@ async function playLootboxAnimation(wonItem, boxData) {
         const elapsedTime = timestamp - startTime;
         const progress = Math.min(elapsedTime / duration, 1);
 
-        const easedProgress = progress < 0.5 
-            ? 4 * progress * progress * progress 
+        const easedProgress = progress < 0.5
+            ? 4 * progress * progress * progress
             : 1 - Math.pow(-2 * progress + 2, 3) / 2;
 
         const currentPosition = easedProgress * finalPosition;
@@ -1806,12 +1806,12 @@ function populateShopModalWithBoxes(categoryKey) {
 
         const possibleLoot = box.lootPool.map(loot => {
             const item = shopData[loot.itemId];
-            const itemName = (window.i18next && i18next.isInitialized) 
-            ? (i18next.t(`items.${item.id}.name`) || item.name) 
-            : item.name;
-        const itemDescription = (window.i18next && i18next.isInitialized) 
-            ? (i18next.t(`items.${item.id}.description`) || item.description) 
-            : item.description;
+            const itemName = (window.i18next && i18next.isInitialized)
+                ? (i18next.t(`items.${item.id}.name`) || item.name)
+                : item.name;
+            const itemDescription = (window.i18next && i18next.isInitialized)
+                ? (i18next.t(`items.${item.id}.description`) || item.description)
+                : item.description;
             const itemRarity = loot.rarity; // np. 'common', 'rare', 'legendary'
 
             // Każda ikonka dostaje teraz tło, ramkę w kolorze rzadkości i tooltip
@@ -1917,7 +1917,7 @@ async function populateEquipmentSelectionModal(category) {
 
     if (ownedItemsInCategory.length === 0) {
         const noItemsText = (window.i18next && i18next.isInitialized)
-            ? (baseLang => baseLang === 'en' ? 'You do not own any items in this category.' : 'Nie posiadasz żadnych przedmiotów z tej kategorii.')( (i18next.language||'pl').split('-')[0] )
+            ? (baseLang => baseLang === 'en' ? 'You do not own any items in this category.' : 'Nie posiadasz żadnych przedmiotów z tej kategorii.')((i18next.language || 'pl').split('-')[0])
             : 'Nie posiadasz żadnych przedmiotów z tej kategorii.';
         equipmentGrid.innerHTML = `<p class="col-span-4 text-center text-gray-500">${noItemsText}</p>`;
     } else {
@@ -1945,7 +1945,7 @@ async function populateEquipmentSelectionModal(category) {
 
 function drawReadyState() {
     recalculateGameConstants();
-    
+
     score = 0;
     player.side = 'left';
     tree = [];
@@ -1953,10 +1953,10 @@ function drawReadyState() {
     timer = MAX_TIME;
     const stats = loadStats();
     petSaveUsed = false;
-    activeBonuses = { 
-        timeGainBonus: 0, 
-        timerSlowdown: 0, 
-        coinMultiplier: 0, 
+    activeBonuses = {
+        timeGainBonus: 0,
+        timerSlowdown: 0,
+        coinMultiplier: 0,
         coinMultiplierBonus: 0,
         expMultiplierBonus: 0
     };
@@ -2012,14 +2012,14 @@ function gameLoop() {
             }
             timerBar.style.width = `${(timer / MAX_TIME) * 100}%`;
         }
-        
+
         // Obsługa timeoutów w trybie rywalizacji
         if (gameMode === 'competition') {
             if (playerTimeout > 0) {
                 playerTimeout -= 1000 / 60; // Odejmij czas jednej klatki
                 if (playerTimeout <= 0) playerTimeout = 0;
             }
-            
+
             if (botTimeout > 0) {
                 botTimeout -= 1000 / 60; // Odejmij czas jednej klatki
                 if (botTimeout <= 0) botTimeout = 0;
@@ -2069,13 +2069,13 @@ function drawSingleTree() {
     // Krok 3: Narysuj drzewo i jego gałęzie (stara logika)
     tree.forEach((segment, index) => {
         const y = canvas.height - (index + 1) * SEGMENT_HEIGHT;
-        
+
         // Ta poprawka stabilizuje numery pni w momencie zatrzymania gry
         //const effectiveScore = (gameMode === 'birds' && birdsSuccess) ? score - 1 : score;
         const segmentNumber = score + index + 1;
-    
+
         let isSpecialSegment = false;
-    
+
         // Rysuj specjalny blok w zależności od trybu
         if (gameMode === 'birds' && segmentNumber === birdsTarget + 1) {
             drawBirdsTreeTop(TRUNK_X, y, TRUNK_WIDTH, SEGMENT_HEIGHT);
@@ -2087,7 +2087,7 @@ function drawSingleTree() {
             // W każdym innym przypadku rysuj zwykły pień.
             drawTrunkSegment(TRUNK_X, y, TRUNK_WIDTH, SEGMENT_HEIGHT);
         }
-    
+
         // Rysuj gałęzie tylko, jeśli segment nie jest gniazdem
         if (segment.branch && !isSpecialSegment) {
             drawBranch(TRUNK_X, y, segment.branch);
@@ -2101,9 +2101,9 @@ function drawCompetitionTrees() {
     botTree.forEach((segment, index) => {
         const y = canvas.height - (index + 1) * SEGMENT_HEIGHT;
         const segmentNumber = botProgress + index + 1;
-        
+
         let isSpecialSegment = false;
-        
+
         // Rysuj specjalny blok w zależności od trybu
         if (segmentNumber === competitionTarget + 1) {
             drawCompetitionTreeTop(BOT_TRUNK_X, y, TRUNK_WIDTH, SEGMENT_HEIGHT);
@@ -2111,21 +2111,21 @@ function drawCompetitionTrees() {
         } else {
             drawTrunkSegment(BOT_TRUNK_X, y, TRUNK_WIDTH, SEGMENT_HEIGHT);
         }
-        
+
         // Rysuj gałęzie tylko, jeśli segment nie jest specjalny
         if (segment.branch && !isSpecialSegment) {
             drawBranch(BOT_TRUNK_X, y, segment.branch);
         }
     });
-    
+
     // Rysuj drzewo gracza po prawej stronie
     const PLAYER_TRUNK_X = canvas.width * 0.75 - TRUNK_WIDTH / 2;
     tree.forEach((segment, index) => {
         const y = canvas.height - (index + 1) * SEGMENT_HEIGHT;
         const segmentNumber = score + index + 1;
-        
+
         let isSpecialSegment = false;
-        
+
         // Rysuj specjalny blok w zależności od trybu
         if (segmentNumber === competitionTarget + 1) {
             drawCompetitionTreeTop(PLAYER_TRUNK_X, y, TRUNK_WIDTH, SEGMENT_HEIGHT);
@@ -2133,13 +2133,13 @@ function drawCompetitionTrees() {
         } else {
             drawTrunkSegment(PLAYER_TRUNK_X, y, TRUNK_WIDTH, SEGMENT_HEIGHT);
         }
-        
+
         // Rysuj gałęzie tylko, jeśli segment nie jest specjalny
         if (segment.branch && !isSpecialSegment) {
             drawBranch(PLAYER_TRUNK_X, y, segment.branch);
         }
     });
-    
+
     // Rysuj linię oddzielającą gracza od bota
     ctx.strokeStyle = '#FFFFFF';
     ctx.lineWidth = 3;
@@ -2149,20 +2149,20 @@ function drawCompetitionTrees() {
     ctx.lineTo(canvas.width / 2, canvas.height);
     ctx.stroke();
     ctx.setLineDash([]); // Resetuj styl linii
-    
+
     // Rysuj napisy "Bot" i "Gracz" na górze ekranu
     ctx.fillStyle = '#FFFFFF';
     ctx.font = 'bold 24px "Jersey 10", sans-serif';
     ctx.textAlign = 'center';
     ctx.strokeStyle = '#000000';
     ctx.lineWidth = 2;
-    
+
     // Napis "Bot" po lewej stronie
     const botLabelX = canvas.width * 0.25;
     const botLabelY = 40;
     ctx.strokeText('Bot', botLabelX, botLabelY);
     ctx.fillText('Bot', botLabelX, botLabelY);
-    
+
     // Napis "Gracz" po prawej stronie
     const playerLabelX = canvas.width * 0.75;
     const playerLabelY = 40;
@@ -2173,17 +2173,17 @@ function drawCompetitionTrees() {
 function drawCompetitionPlayers() {
     const BOT_X = canvas.width * 0.25 - TRUNK_WIDTH / 2;
     const PLAYER_X = canvas.width * 0.75 - TRUNK_WIDTH / 2;
-    
+
     // Bot - przekazujemy mu wartość botTimeout
     drawPlayerAtPosition(botPlayer, BOT_X, botTimeout);
-    
+
     // Gracz - przekazujemy mu wartość playerTimeout
     drawPlayerAtPosition(player, PLAYER_X, playerTimeout);
 }
 
 function drawPlayerAtPosition(playerObj, x, timeoutValue) { // Zmieniliśmy 'isTimeout' na 'timeoutValue'
     const playerY = canvas.height - PLAYER_HEIGHT;
-    
+
     let spriteToDraw;
     if (playerObj.frame === 'idle') {
         spriteToDraw = playerSprites.idle;
@@ -2201,23 +2201,23 @@ function drawPlayerAtPosition(playerObj, x, timeoutValue) { // Zmieniliśmy 'isT
 
         if (playerObj.side === 'left') {
             playerX = (x - PLAYER_WIDTH - PLAYER_OFFSET_X) + widthDifference;
-            scaleX = -1;
+            scaleX = 1;
         } else {
             playerX = (x + TRUNK_WIDTH + PLAYER_OFFSET_X) - (widthDifference * LUNGE_MULTIPLIER);
-            scaleX = 1;
+            scaleX = -1;
         }
 
         // --- POCZĄTEK MODYFIKACJI ---
         if (timeoutValue > 0) {
             ctx.globalAlpha = 0.5; // Postać jest lekko przezroczysta podczas ogłuszenia
         }
-        
+
         ctx.save();
         ctx.translate(playerX + dynamicWidth / 2, playerY + PLAYER_HEIGHT / 2);
         ctx.scale(scaleX, 1);
         ctx.drawImage(spriteToDraw, -dynamicWidth / 2, -PLAYER_HEIGHT / 2, dynamicWidth, PLAYER_HEIGHT);
         ctx.restore();
-        
+
         // Rysuj tekst i timer tylko jeśli postać jest ogłuszona
         if (timeoutValue > 0) {
             ctx.globalAlpha = 1.0;
@@ -2226,7 +2226,7 @@ function drawPlayerAtPosition(playerObj, x, timeoutValue) { // Zmieniliśmy 'isT
             ctx.textAlign = 'center';
             ctx.strokeStyle = '#FFFFFF';
             ctx.lineWidth = 3;
-            
+
             const textX = playerX + dynamicWidth / 2;
             const textY = playerY - 25; // Trochę wyżej, żeby zrobić miejsce na timer
 
@@ -2295,19 +2295,19 @@ function drawBirdsTreeTop(x, y, width, height) {
     // Narysuj niebieski blok z ptakami
     ctx.fillStyle = '#4A90E2'; // Niebieski kolor
     ctx.fillRect(x, y, width, height);
-    
+
     // Dodaj gradient dla lepszego efektu
     const gradient = ctx.createLinearGradient(x, y, x, y + height);
     gradient.addColorStop(0, '#87CEEB'); // Jasny niebieski
     gradient.addColorStop(1, '#4A90E2'); // Ciemniejszy niebieski
     ctx.fillStyle = gradient;
     ctx.fillRect(x, y, width, height);
-    
+
     // Dodaj obramowanie
     ctx.strokeStyle = '#2E5984';
     ctx.lineWidth = 2;
     ctx.strokeRect(x, y, width, height);
-    
+
     // Narysuj ptaki na bloku
     ctx.fillStyle = '#000';
     ctx.font = '24px Arial';
@@ -2321,19 +2321,19 @@ function drawCompetitionTreeTop(x, y, width, height) {
     // Narysuj żółty blok z koronką
     ctx.fillStyle = '#FFD700'; // Złoty kolor
     ctx.fillRect(x, y, width, height);
-    
+
     // Dodaj gradient dla lepszego efektu
     const gradient = ctx.createLinearGradient(x, y, x, y + height);
     gradient.addColorStop(0, '#FFA500'); // Jasny pomarańczowy
     gradient.addColorStop(1, '#FFD700'); // Złoty
     ctx.fillStyle = gradient;
     ctx.fillRect(x, y, width, height);
-    
+
     // Dodaj obramowanie
     ctx.strokeStyle = '#B8860B';
     ctx.lineWidth = 2;
     ctx.strokeRect(x, y, width, height);
-    
+
     // Narysuj koronkę na bloku
     ctx.fillStyle = '#000';
     ctx.font = '24px Arial';
@@ -2373,11 +2373,11 @@ function drawPlayer() {
         if (player.side === 'left') {
             // Lewa strona - działała dobrze, zostaje bez zmian
             playerX = (TRUNK_X - PLAYER_WIDTH - PLAYER_OFFSET_X) + widthDifference;
-            scaleX = -1;
+            scaleX = 1;
         } else { // Prawa strona
             // POPRAWKA TUTAJ: Mnożymy przesunięcie, aby było bardziej wyraziste
             playerX = (TRUNK_X + TRUNK_WIDTH + PLAYER_OFFSET_X) - (widthDifference * LUNGE_MULTIPLIER);
-            scaleX = 1;
+            scaleX = -1;
         }
 
         ctx.save();
@@ -2422,7 +2422,7 @@ async function gameOver() {
     }
 
     const oldStats = loadStats();
-    
+
     if (gameMode === 'birds') {
         const rewardKey = birdsSuccess ? birdsDifficulty : 'fail';
         const { coins, exp } = BIRDS_CONFIG.rewards[rewardKey] || { coins: 0, exp: 0 };
@@ -2499,7 +2499,7 @@ function performChop(sideToChop) {
         }
         createChopParticles(choppedSegment, particleOriginX, player.side);
     }
-    
+
     if (gameMode === 'birds') {
         birdsProgress = score;
         updateRescueProgressUI(birdsProgress, birdsTarget);
@@ -2511,7 +2511,7 @@ function performChop(sideToChop) {
             player.frame = 'swing';
             animationTimeout1 = setTimeout(() => { player.frame = 'chop'; }, 75);
             animationTimeout2 = setTimeout(() => { player.frame = 'idle'; }, 150);
-            return; 
+            return;
         }
     } else if (gameMode === 'competition') {
         competitionProgress = score;
@@ -2519,7 +2519,7 @@ function performChop(sideToChop) {
         if (score >= competitionTarget) {
             competitionWinner = 'player';
             setTimeout(gameOver, 1000);
-            tree.splice(1); 
+            tree.splice(1);
         }
     }
 
@@ -2575,7 +2575,7 @@ function createChopParticles(choppedSegment, trunkX, choppingSide) {
     let verticalVelocity;
     if (isCompactMode) {
         // Delikatniejszy odrzut w górę w trybie kompaktowym
-        verticalVelocity = -4; 
+        verticalVelocity = -4;
     } else {
         // Normalny, silny odrzut w górę dla pełnego ekranu i innych trybów
         verticalVelocity = -7;
@@ -2583,15 +2583,15 @@ function createChopParticles(choppedSegment, trunkX, choppingSide) {
     // --- KONIEC NOWEGO KODU ---
 
     particles.push({
-        x: trunkX, 
-        y: canvas.height - SEGMENT_HEIGHT, 
-        width: TRUNK_WIDTH, 
+        x: trunkX,
+        y: canvas.height - SEGMENT_HEIGHT,
+        width: TRUNK_WIDTH,
         height: SEGMENT_HEIGHT,
-        branch: choppedSegment.branch, 
+        branch: choppedSegment.branch,
         // Krok 4: Używamy OBU dynamicznych sił do stworzenia cząsteczki
         velocityX: (choppingSide === 'left' ? 1 : -1) * velocityMultiplier,
         velocityY: verticalVelocity, // <-- Używamy naszej nowej zmiennej
-        rotation: 0, 
+        rotation: 0,
         rotationSpeed: (choppingSide === 'left' ? 1 : -1) * (Math.random() * 0.05 + 0.05)
     });
 }
@@ -2691,10 +2691,10 @@ async function checkLoginStatus() {
         currentUser = null;
         showLoginButton();
     }
-    
+
     // Oznacz logowanie jako gotowe po próbie (niezależnie od wyniku)
     markComponentReady('login');
-    
+
     // Teraz załaduj sklep - to też może wymagać połączenia z serwerem
     try {
         console.log('Ładowanie sklepu...');
@@ -2729,7 +2729,7 @@ function openShopHub() {
         button.addEventListener('click', () => {
             closeModal(shopHubModal);
             // POPRAWKA TUTAJ: Używamy poprawnej nazwy funkcji z "es" na końcu
-            populateShopModalWithBoxes(categoryKey); 
+            populateShopModalWithBoxes(categoryKey);
             openModal(shopModal);
         });
 
@@ -2772,7 +2772,7 @@ function updateContent() {
             if (authButton) {
                 authButton.textContent = currentUser ? i18next.t('buttons.logout') : i18next.t('buttons.login');
             }
-            
+
             // Zaktualizuj elementy profilu
             if (profileLogoutBtn) {
                 profileLogoutBtn.textContent = i18next.t('accountHub.profile_tab.logout_button');
@@ -2783,7 +2783,7 @@ function updateContent() {
             if (document.querySelector('#guest-profile-section p')) {
                 document.querySelector('#guest-profile-section p').textContent = i18next.t('accountHub.profile_tab.guest_message');
             }
-            
+
             // Zaktualizuj modale edycji profilu
             if (document.querySelector('#avatar-edit-modal h2')) {
                 document.querySelector('#avatar-edit-modal h2').textContent = i18next.t('accountHub.profile_tab.change_avatar');
@@ -2797,7 +2797,7 @@ function updateContent() {
             if (document.querySelector('#save-avatar')) {
                 document.querySelector('#save-avatar').textContent = i18next.t('accountHub.profile_tab.save');
             }
-            
+
             if (document.querySelector('#username-edit-modal h2')) {
                 document.querySelector('#username-edit-modal h2').textContent = i18next.t('accountHub.profile_tab.change_username');
             }
@@ -2816,7 +2816,7 @@ function updateContent() {
             if (document.querySelector('#save-username')) {
                 document.querySelector('#save-username').textContent = i18next.t('accountHub.profile_tab.save');
             }
-            
+
             // Zaktualizuj elementy rankingu
             if (document.querySelector('#leaderboard-modal h2')) {
                 document.querySelector('#leaderboard-modal h2').textContent = i18next.t('accountHub.stats_tab.leaderboard_title');
@@ -2842,7 +2842,7 @@ function updateContent() {
             if (document.querySelector('#close-post-game-ranking')) {
                 document.querySelector('#close-post-game-ranking').textContent = i18next.t('accountHub.stats_tab.post_game_ranking_continue');
             }
-            
+
             // Tłumaczenia są już oznaczone jako gotowe w window.onload
         }
 
@@ -2914,7 +2914,7 @@ function updateUIAfterLogin(user) {
         mainAvatarContainer.innerHTML = `<img src="${userAvatarUrl}" alt="Avatar" class="w-full h-full rounded-full">`;
     }
     mainUsername.textContent = user.display_name;
-    
+
     // Aktualizuj sekcję profilu
     updateProfileSection(user);
 }
@@ -2924,7 +2924,7 @@ function updateProfileSection(user) {
         // Pokaż sekcję użytkownika, ukryj sekcję gościa
         userProfileSection.classList.remove('hidden');
         guestProfileSection.classList.add('hidden');
-        
+
         // Aktualizuj dane profilu
         if (user.avatar_type && user.avatar_type !== 'default') {
             // Użyj emoji awatara
@@ -2953,7 +2953,7 @@ function showLoginButton() {
     // Wyczyść cache misji przy wylogowaniu
     missionsCache = null;
     missionsLastFetch = 0;
-    
+
     // Zmień przycisk w przycisk "Zaloguj"
     if (window.i18next && i18next.isInitialized) {
         authButton.textContent = i18next.t('buttons.login');
@@ -2972,7 +2972,7 @@ function showLoginButton() {
     } else {
         mainUsername.textContent = 'Gość';
     }
-    
+
     // Aktualizuj sekcję profilu dla gościa
     updateProfileSection(null);
 }
@@ -2998,7 +2998,7 @@ function openAvatarEditModal() {
         showNotification('Musisz być zalogowany, aby edytować profil!', 'error');
         return;
     }
-    
+
     // Wypełnij opcje awatarów
     avatarOptions.innerHTML = '';
     availableAvatars.forEach(avatar => {
@@ -3009,19 +3009,19 @@ function openAvatarEditModal() {
         option.addEventListener('click', () => selectAvatar(avatar));
         avatarOptions.appendChild(option);
     });
-    
+
     // Ustaw aktualny awatar jako wybrany
     const currentAvatar = currentUser.avatar_type || 'default';
     selectedAvatar = currentAvatar;
     updateAvatarPreview();
-    
+
     openModal(avatarEditModal);
 }
 
 function selectAvatar(avatar) {
     selectedAvatar = avatar.id;
     updateAvatarPreview();
-    
+
     // Podświetl wybrany awatar
     avatarOptions.querySelectorAll('div').forEach(option => {
         option.classList.remove('border-amber-500', 'bg-amber-500/20');
@@ -3040,7 +3040,7 @@ function updateAvatarPreview() {
 
 async function saveAvatarChanges() {
     if (!currentUser || !selectedAvatar) return;
-    
+
     try {
         const response = await fetch(`${BACKEND_URL}/api/update-profile`, {
             method: 'POST',
@@ -3048,19 +3048,19 @@ async function saveAvatarChanges() {
             credentials: 'include',
             body: JSON.stringify({ avatar_type: selectedAvatar })
         });
-        
+
         if (!response.ok) throw new Error('Błąd zapisywania awatara');
-        
+
         const updatedUser = await response.json();
         currentUser = updatedUser;
-        
+
         // Aktualizuj UI
         updateProfileSection(updatedUser);
         updateUIAfterLogin(updatedUser);
-        
+
         closeModal(avatarEditModal);
         showNotification('Avatar został zaktualizowany!', 'success');
-        
+
     } catch (error) {
         console.error('Błąd zapisywania awatara:', error);
         showNotification('Wystąpił błąd podczas zapisywania awatara', 'error');
@@ -3072,25 +3072,25 @@ function openUsernameEditModal() {
         showNotification('Musisz być zalogowany, aby edytować profil!', 'error');
         return;
     }
-    
+
     newUsernameInput.value = currentUser.display_name || '';
     openModal(usernameEditModal);
 }
 
 async function saveUsernameChanges() {
     if (!currentUser) return;
-    
+
     const newUsername = newUsernameInput.value.trim();
     if (!newUsername) {
         showNotification('Nazwa użytkownika nie może być pusta!', 'error');
         return;
     }
-    
+
     if (newUsername.length > 50) {
         showNotification('Nazwa użytkownika jest za długa!', 'error');
         return;
     }
-    
+
     try {
         const response = await fetch(`${BACKEND_URL}/api/update-profile`, {
             method: 'POST',
@@ -3098,19 +3098,19 @@ async function saveUsernameChanges() {
             credentials: 'include',
             body: JSON.stringify({ display_name: newUsername })
         });
-        
+
         if (!response.ok) throw new Error('Błąd zapisywania nazwy');
-        
+
         const updatedUser = await response.json();
         currentUser = updatedUser;
-        
+
         // Aktualizuj UI
         updateProfileSection(updatedUser);
         updateUIAfterLogin(updatedUser);
-        
+
         closeModal(usernameEditModal);
         showNotification('Nazwa użytkownika została zaktualizowana!', 'success');
-        
+
     } catch (error) {
         console.error('Błąd zapisywania nazwy:', error);
         showNotification('Wystąpił błąd podczas zapisywania nazwy', 'error');
@@ -3144,14 +3144,14 @@ function unlockBodyScroll() {
 async function openLeaderboardModal() {
     // Zablokuj scroll na body
     lockBodyScroll();
-    
+
     openModal(leaderboardModal);
     await loadLeaderboardData(currentLeaderboardType);
 }
 
 async function loadLeaderboardData(type = 'highscore') {
     currentLeaderboardType = type;
-    
+
     // Pokaż loading
     leaderboardContent.innerHTML = `
         <div class="flex items-center justify-center py-8">
@@ -3159,20 +3159,20 @@ async function loadLeaderboardData(type = 'highscore') {
             <span class="ml-3 text-gray-400">${window.i18next && i18next.isInitialized ? i18next.t('accountHub.stats_tab.leaderboard_loading') : 'Ładowanie rankingu...'}</span>
         </div>
     `;
-    
+
     try {
         const response = await fetch(`${BACKEND_URL}/api/leaderboard?type=${type}`, {
             credentials: 'include'
         });
-        
+
         if (!response.ok) throw new Error('Błąd ładowania rankingu');
-        
+
         const data = await response.json();
         leaderboardData = data.leaderboard || [];
-        
+
         renderLeaderboard(leaderboardData);
         updateUserRankingInfo(data.userRank || null);
-        
+
     } catch (error) {
         console.error('Błąd ładowania rankingu:', error);
         leaderboardContent.innerHTML = `
@@ -3195,20 +3195,20 @@ function renderLeaderboard(data) {
         `;
         return;
     }
-    
+
     leaderboardContent.innerHTML = '';
-    
+
     data.forEach((player, index) => {
         const entry = document.createElement('div');
         entry.className = `leaderboard-entry ${player.isCurrentUser ? 'current-user' : ''}`;
-        
+
         const position = index + 1;
         const positionClass = position <= 3 ? `rank-${position}` : '';
-        
+
         // Określ wartość do wyświetlenia
         let displayValue = '';
         let displayLabel = '';
-        
+
         switch (currentLeaderboardType) {
             case 'highscore':
                 displayValue = player.high_score || 0;
@@ -3227,7 +3227,7 @@ function renderLeaderboard(data) {
                 displayLabel = window.i18next && i18next.isInitialized ? i18next.t('accountHub.stats_tab.leaderboard_coins_label') : 'Monety';
                 break;
         }
-        
+
         // Avatar
         let avatarHtml = '';
         if (player.avatar_type && player.avatar_type !== 'default') {
@@ -3240,7 +3240,7 @@ function renderLeaderboard(data) {
         } else {
             avatarHtml = `<div class="leaderboard-avatar"><img src="${player.avatar_url}" alt="Avatar"></div>`;
         }
-        
+
         entry.innerHTML = `
             <div class="leaderboard-position ${positionClass}">${position}</div>
             ${avatarHtml}
@@ -3254,7 +3254,7 @@ function renderLeaderboard(data) {
             </div>
             ${player.isCurrentUser ? '<div class="leaderboard-badge">TY</div>' : ''}
         `;
-        
+
         leaderboardContent.appendChild(entry);
     });
 }
@@ -3264,9 +3264,9 @@ function updateUserRankingInfo(userRank) {
         userRankingStats.style.display = 'none';
         return;
     }
-    
+
     userRankingStats.style.display = 'block';
-    
+
     let displayValue = '';
     switch (currentLeaderboardType) {
         case 'highscore':
@@ -3282,7 +3282,7 @@ function updateUserRankingInfo(userRank) {
             displayValue = (userRank.coins || 0).toFixed(2);
             break;
     }
-    
+
     userRankingInfo.innerHTML = `
         <div class="flex items-center justify-between">
             <div>
@@ -3305,7 +3305,7 @@ function switchLeaderboardType(type) {
             filter.classList.add('active');
         }
     });
-    
+
     // Załaduj nowe dane
     loadLeaderboardData(type);
 }
@@ -3316,20 +3316,20 @@ async function showPostGameRanking(score) {
         const response = await fetch(`${BACKEND_URL}/api/leaderboard?type=highscore&score=${score}`, {
             credentials: 'include'
         });
-        
+
         if (!response.ok) throw new Error('Błąd ładowania rankingu');
-        
+
         const data = await response.json();
         const topPlayers = data.leaderboard.slice(0, 5);
         const userRank = data.userRank;
-        
+
         postGameRankingContent.innerHTML = '';
-        
+
         // Dodaj top 5 graczy
         topPlayers.forEach((player, index) => {
             const entry = document.createElement('div');
             entry.className = 'post-game-ranking-entry';
-            
+
             let avatarHtml = '';
             if (player.avatar_type && player.avatar_type !== 'default') {
                 const avatar = availableAvatars.find(a => a.id === player.avatar_type);
@@ -3341,7 +3341,7 @@ async function showPostGameRanking(score) {
             } else {
                 avatarHtml = `<div class="post-game-ranking-avatar"><img src="${player.avatar_url}" alt="Avatar" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;"></div>`;
             }
-            
+
             entry.innerHTML = `
                 <div class="post-game-ranking-position">${index + 1}</div>
                 ${avatarHtml}
@@ -3350,14 +3350,14 @@ async function showPostGameRanking(score) {
                     <div class="post-game-ranking-value">${player.high_score || 0} pkt</div>
                 </div>
             `;
-            
+
             postGameRankingContent.appendChild(entry);
         });
-        
+
         // Zablokuj scroll na body i pokaż modal
         lockBodyScroll();
         postGameRanking.classList.remove('hidden');
-        
+
     } catch (error) {
         console.error('Błąd ładowania rankingu po grze:', error);
         // W przypadku błędu, po prostu nie pokazuj rankingu
@@ -3471,16 +3471,16 @@ botHardBtn.addEventListener('click', () => {
 });
 
 function safeChangeLanguage(lng) {
-  const i18n = window.i18next;
-  try {
-    // Zapisz wybór od razu (używane przez detektor języka)
-    localStorage.setItem('i18nextLng', lng);
-    console.log('[i18n] safeChangeLanguage ->', lng);
-    if (i18n && i18n.isInitialized) i18n.changeLanguage(lng);
-  } finally {
-    // Natychmiastowe odświeżenie UI i podświetlenia przycisków
-    updateContent();
-  }
+    const i18n = window.i18next;
+    try {
+        // Zapisz wybór od razu (używane przez detektor języka)
+        localStorage.setItem('i18nextLng', lng);
+        console.log('[i18n] safeChangeLanguage ->', lng);
+        if (i18n && i18n.isInitialized) i18n.changeLanguage(lng);
+    } finally {
+        // Natychmiastowe odświeżenie UI i podświetlenia przycisków
+        updateContent();
+    }
 }
 
 plButton.addEventListener('click', () => safeChangeLanguage('pl'));
@@ -3488,11 +3488,11 @@ enButton.addEventListener('click', () => safeChangeLanguage('en'));
 
 // Jedno spójne nasłuchiwanie zmiany języka
 i18next.on('languageChanged', () => {
-  console.log('[i18n] languageChanged =>', i18next.language);
-  updateContent();
-  if (!accountHubModal.classList.contains('hidden') && document.querySelector('.tab-button[data-tab="missions"]').classList.contains('active')) {
-    fetchAndDisplayMissions(true);
-}
+    console.log('[i18n] languageChanged =>', i18next.language);
+    updateContent();
+    if (!accountHubModal.classList.contains('hidden') && document.querySelector('.tab-button[data-tab="missions"]').classList.contains('active')) {
+        fetchAndDisplayMissions(true);
+    }
 });
 
 navShopButton.addEventListener('click', openShopHub);
@@ -3591,7 +3591,7 @@ function showStartScreen() {
     botScoreElement.classList.add('hidden');
     playerScoreElement.classList.add('hidden');
     scoreElement.classList.remove('hidden'); // KLUCZOWA ZMIANA: Pokaż środkowy licznik z powrotem
-    timerBarContainer.classList.remove('hidden'); 
+    timerBarContainer.classList.remove('hidden');
     // --- KONIEC ZMIANY ---
 
     document.getElementById('game-container').classList.remove('birds-success');
@@ -3617,13 +3617,13 @@ function startBirdsSetup(difficulty) {
     birdsTarget = Math.floor(Math.random() * (BIRDS_CONFIG.ranges[difficulty].max - BIRDS_CONFIG.ranges[difficulty].min + 1)) + BIRDS_CONFIG.ranges[difficulty].min;
     birdsProgress = 0;
     birdsSuccess = false;
-    
+
     // Ukryj wszystkie menu (włącznie z game over menu)
     birdsMenu.classList.add('hidden');
     gameOverMenu.classList.add('hidden');
     mainMenu.classList.add('hidden');
     classicMenu.classList.add('hidden');
-    
+
     // Pokaż animację ostrzegawczą
     showBirdsWarning();
 }
@@ -3638,13 +3638,13 @@ function startCompetitionSetup(difficulty) {
     competitionWinner = null;
     playerTimeout = 0;
     botTimeout = 0;
-    
+
     // Ukryj wszystkie menu (włącznie z game over menu)
     competitionBotMenu.classList.add('hidden');
     gameOverMenu.classList.add('hidden');
     mainMenu.classList.add('hidden');
     classicMenu.classList.add('hidden');
-    
+
     // Pokaż animację ostrzegawczą
     showCompetitionWarning();
 }
@@ -3652,7 +3652,7 @@ function startCompetitionSetup(difficulty) {
 function showBirdsWarning() {
     // Zablokuj input już od razu
     gameState = 'birds-warning';
-    
+
     // Ustaw tekst ostrzeżenia
     const i18n = window.i18next;
     if (i18n && i18n.t) {
@@ -3660,11 +3660,11 @@ function showBirdsWarning() {
     } else {
         birdsWarningText.textContent = `Zetnij ${birdsTarget} pni, aby je ochronić.`;
     }
-    
+
     // Pokaż overlay ostrzegawczy z czarnym tłem
     messageOverlay.style.display = 'flex';
     birdsWarningOverlay.classList.remove('hidden');
-    
+
     // Po 2 sekundach przejdź do odliczania
     setTimeout(() => {
         birdsWarningOverlay.classList.add('hidden');
@@ -3675,7 +3675,7 @@ function showBirdsWarning() {
 function showCompetitionWarning() {
     // Zablokuj input już od razu
     gameState = 'competition-warning';
-    
+
     // Ustaw tekst ostrzeżenia
     const i18n = window.i18next;
     if (i18n && i18n.t) {
@@ -3683,11 +3683,11 @@ function showCompetitionWarning() {
     } else {
         competitionWarningText.textContent = `Kto pierwszy zetnie ${competitionTarget} pni wygrywa!`;
     }
-    
+
     // Pokaż overlay ostrzegawczy z czarnym tłem
     messageOverlay.style.display = 'flex';
     competitionWarningOverlay.classList.remove('hidden');
-    
+
     // Po 2 sekundach przejdź do odliczania
     setTimeout(() => {
         competitionWarningOverlay.classList.add('hidden');
@@ -3700,11 +3700,11 @@ function initBirdsMode() {
     score = 0;
     birdsProgress = 0;
     birdsSuccess = false;
-    
+
     // Pokaż pasek postępu
     rescueProgressContainer.classList.remove('hidden');
     updateRescueProgressUI(0, birdsTarget);
-    
+
     // Uruchom normalną logikę gry
     gameState = 'playing';
     if (gameLoopInterval) clearInterval(gameLoopInterval);
@@ -3731,7 +3731,7 @@ function initCompetitionMode() {
     botScoreElement.classList.remove('hidden');
     playerScoreElement.classList.remove('hidden');
     scoreElement.classList.add('hidden'); // KLUCZOWA ZMIANA: Ukryj środkowy licznik
-    timerBarContainer.classList.add('hidden'); 
+    timerBarContainer.classList.add('hidden');
     // --- KONIEC ZMIANY ---
 
     updateCompetitionProgressUI();
@@ -3772,7 +3772,7 @@ function updateRescueProgressUI(current, target) {
     const percentage = Math.min((current / target) * 100, 100);
     rescueProgressBar.style.width = `${percentage}%`;
     rescueProgressText.textContent = `${current} / ${target}`;
-    
+
     // Dodaj efekt sukcesu gdy osiągnięto cel
     if (current >= target) {
         document.getElementById('game-container').classList.add('birds-success');
@@ -3784,16 +3784,16 @@ function updateCompetitionProgressUI() {
     const playerPercentage = Math.min((competitionProgress / competitionTarget) * 100, 100);
     playerProgressBar.style.width = `${playerPercentage}%`;
     playerProgressText.textContent = `${competitionProgress} / ${competitionTarget}`;
-    
+
     // Aktualizuj pasek bota
     const botPercentage = Math.min((botProgress / competitionTarget) * 100, 100);
     botProgressBar.style.width = `${botPercentage}%`;
     botProgressText.textContent = `${botProgress} / ${competitionTarget}`;
-    
+
     // Aktualizuj liczniki punktów
     playerScoreElement.textContent = competitionProgress;
     botScoreElement.textContent = botProgress;
-    
+
     // Dodaj efekt sukcesu gdy osiągnięto cel
     if (competitionProgress >= competitionTarget) {
         document.getElementById('game-container').classList.add('competition-success');
@@ -3809,7 +3809,7 @@ function startBotAI() {
     // Uruchom AI bota w trybie rywalizacji
     if (gameMode === 'competition' && gameState === 'playing') {
         const botConfig = COMPETITION_CONFIG.botDifficulty[competitionDifficulty];
-        
+
         // Bot wykonuje ruch z opóźnieniem i precyzją zależną od trudności
         setTimeout(() => {
             botMakeMove(botConfig);
@@ -3823,7 +3823,7 @@ function botMakeMove(botConfig) {
     }
 
     const currentSegment = botTree[0];
-    const nextSegment = botTree[1]; 
+    const nextSegment = botTree[1];
     let sideToChop;
     const isBranchOnCurrent_L = currentSegment && currentSegment.branch === 'left';
     const isBranchOnCurrent_R = currentSegment && currentSegment.branch === 'right';
@@ -3831,9 +3831,9 @@ function botMakeMove(botConfig) {
     const isBranchOnNext_R = nextSegment && nextSegment.branch === 'right';
 
     if (isBranchOnCurrent_L) {
-        sideToChop = 'right'; 
+        sideToChop = 'right';
     } else if (isBranchOnCurrent_R) {
-        sideToChop = 'left'; 
+        sideToChop = 'left';
     } else {
         if (isBranchOnNext_L && !isBranchOnNext_R) {
             sideToChop = 'right';
@@ -3853,7 +3853,7 @@ function botMakeMove(botConfig) {
         botPlayer.side = sideToChop;
         console.log('Bot hit current branch, timeout for', botTimeout, 'ms');
         setTimeout(() => {
-            botMakeMove(botConfig); 
+            botMakeMove(botConfig);
         }, COMPETITION_CONFIG.timeoutDuration + 100);
         return;
     }
@@ -3871,7 +3871,7 @@ function botMakeMove(botConfig) {
         chopSound.volume = 0.5;
         chopSound.play();
     }
-    
+
     const choppedSegment = botTree.shift();
     if (choppedSegment) {
         const BOT_TRUNK_X = canvas.width * 0.25 - TRUNK_WIDTH / 2;
@@ -3892,12 +3892,12 @@ function botMakeMove(botConfig) {
         }
         botTree.push({ branch: newBranch });
     }
-    
+
     const segmentAfterChop = botTree[0];
     if (segmentAfterChop && segmentAfterChop.branch === botPlayer.side) {
         botTimeout = COMPETITION_CONFIG.timeoutDuration;
         console.log('Bot was hit by a falling branch, timeout for', botTimeout, 'ms');
-        
+
         setTimeout(() => {
             botMakeMove(botConfig);
         }, COMPETITION_CONFIG.timeoutDuration + 100);
@@ -3910,7 +3910,7 @@ function botMakeMove(botConfig) {
         competitionWinner = 'bot';
         setTimeout(gameOver, 1000);
         botTree.splice(1);
-        return; 
+        return;
     }
 
     setTimeout(() => {
@@ -3921,10 +3921,10 @@ function botMakeMove(botConfig) {
 function birdsRescueComplete() {
     birdsSuccess = true;
     gameState = 'birds-success';
-    
+
     // Pokaż efekt sukcesu
     document.getElementById('game-container').classList.add('birds-success');
-    
+
     // Zatrzymaj dalsze generowanie segmentów, ale pozwól grze działać jeszcze chwilę
     // Po krótkim czasie zakończ grę
     setTimeout(() => {
@@ -3935,10 +3935,10 @@ function birdsRescueComplete() {
 function endBirdsRun() {
     // Zatrzymaj grę
     if (gameLoopInterval) clearInterval(gameLoopInterval);
-    
+
     // Ukryj pasek postępu
     rescueProgressContainer.classList.add('hidden');
-    
+
     // Pokaż menu końca gry (gameState zostanie ustawiony w gameOver())
     gameOver();
 }
@@ -3994,14 +3994,14 @@ function handleResize() {
         // --- LOGIKA DLA TRYBU NORMALNEGO ---
         const containerWidth = gameContainer.clientWidth;
         // Obliczamy wysokość na nowo, tak jak na początku
-        const calculatedCanvasHeight = window.innerHeight * 0.7; 
-        
+        const calculatedCanvasHeight = window.innerHeight * 0.7;
+
         canvas.width = containerWidth;
         canvas.height = calculatedCanvasHeight;
         // Ustawiamy wysokość kontenera na podstawie obliczonej wysokości canvas + miejsca na timer
         gameContainer.style.height = `${calculatedCanvasHeight}px`;
     }
-    recalculateGameConstants(); 
+    recalculateGameConstants();
     // Na koniec zawsze przerysuj grę z nowymi wymiarami
     drawReadyState();
 }
@@ -4064,7 +4064,7 @@ window.onload = async () => {
     ]).catch(error => console.error("Błąd ładowania podstawowych zasobów:", error));
 
     // 2. Sprawdzanie statusu logowania w tle (NIE CZEKAMY na to)
-    checkLoginStatus(); 
+    checkLoginStatus();
 
     // Czekaj TYLKO na załadowanie grafik i dźwięków
     await assetsPromise;
@@ -4073,7 +4073,7 @@ window.onload = async () => {
     // Gdy tylko zasoby są gotowe, zakończ ładowanie i pokaż menu
     finishLoadingAnimation();
     showStartScreen();
-    
+
     // Oznaczanie komponentów jako gotowe nie jest już potrzebne w ten sposób
     // Możesz usunąć cały system 'markComponentReady' i 'loadingStates' jeśli chcesz uprościć kod
 };
@@ -4146,7 +4146,7 @@ if (closeLeaderboardModal) {
     });
 }
 if (leaderboardModal) {
-    leaderboardModal.addEventListener('click', (e) => { 
+    leaderboardModal.addEventListener('click', (e) => {
         if (e.target === leaderboardModal) {
             // Odblokuj scroll na body
             unlockBodyScroll();
@@ -4214,7 +4214,7 @@ function openFullscreen() {
     // Krok 5: "Play" - Uruchom animację
     requestAnimationFrame(() => {
         fullscreenModal.classList.add('is-active');
-        fullscreenGameWrapper.style.transform = ''; 
+        fullscreenGameWrapper.style.transform = '';
     });
 
     // Krok 6: Po zakończeniu animacji ramki, pokaż interfejs
@@ -4253,7 +4253,7 @@ function closeFullscreen() {
 
         // Pokaż interfejs z powrotem w oryginalnym kontenerze
         messageOverlay.style.opacity = '1';
-        
+
         fullscreenModal.classList.add('hidden');
         fullscreenGameWrapper.style.transform = '';
         handleResize();
@@ -4283,15 +4283,15 @@ window.addEventListener('keyup', handleKeyUp);
  */
 function performTransition(onTransitionMidpoint) {
     const isFullscreen = !fullscreenModal.classList.contains('hidden');
-    
+
     if (isFullscreen) {
         // W trybie pełnoekranowym używaj pixelowej animacji
         const PIXEL_SIZE = 40;
         const DURATION = 400;
-        
+
         // Pixelowa animacja przejścia
         messageOverlay.style.opacity = '0';
-        
+
         // Stwórz canvas dla pixelowej animacji
         const transitionCanvas = document.createElement('canvas');
         transitionCanvas.style.cssText = `
@@ -4303,7 +4303,7 @@ function performTransition(onTransitionMidpoint) {
             z-index: 9999;
             pointer-events: none;
         `;
-        
+
         // Dodaj canvas do kontenera gry
         fullscreenGameWrapper.appendChild(transitionCanvas);
 
@@ -4327,7 +4327,7 @@ function performTransition(onTransitionMidpoint) {
         function animateIn(currentTime) {
             const elapsedTime = currentTime - startTime;
             const progress = Math.min(elapsedTime / DURATION, 1);
-            
+
             const pixelsToDrawCount = Math.floor(progress * pixels.length);
             const pixelsToDrawNow = pixelsToAnimate.splice(0, pixelsToDrawCount - (pixels.length - pixelsToAnimate.length));
 
@@ -4350,7 +4350,7 @@ function performTransition(onTransitionMidpoint) {
 
             const pixelsToClearCount = Math.floor(progress * pixels.length);
             const pixelsToClearNow = pixelsToAnimate.splice(0, pixelsToClearCount - (pixels.length - pixelsToAnimate.length));
-            
+
             pixelsToClearNow.forEach(p => ctx.clearRect(p.x, p.y, PIXEL_SIZE, PIXEL_SIZE));
 
             if (progress < 1) {
@@ -4421,15 +4421,15 @@ document.addEventListener('click', (e) => {
     if (e.target.matches('.mission-tab-button')) {
         const target = e.target.dataset.missionTab;
         currentMissionType = target;
-        
+
         // Usuń aktywną klasę z wszystkich przycisków
         document.querySelectorAll('.mission-tab-button').forEach(btn => {
             btn.classList.remove('active');
         });
-        
+
         // Dodaj aktywną klasę do klikniętego przycisku
         e.target.classList.add('active');
-        
+
         // Pokaż/ukryj odpowiednią zawartość
         const missionContents = document.querySelectorAll('.mission-content');
         missionContents.forEach(content => {
@@ -4439,11 +4439,11 @@ document.addEventListener('click', (e) => {
                 content.classList.add('hidden');
             }
         });
-        
+
         // Zaktualizuj timer
         updateMissionRefreshTimer();
     }
-    
+
 });
 
 function setGameStateUI(state) {
@@ -4469,7 +4469,7 @@ function setGameStateUI(state) {
                 container.classList.add('game-state');
             }
         });
-        
+
         // --- POCZĄTEK POPRAWKI ---
         // Pokaż/ukryj elementy w zależności od trybu gry
         if (gameMode === 'competition') {
